@@ -28,10 +28,10 @@ Time  t;
 #define RELAY_ON 1
 #define RELAY_OFF 0
 
-#define Relay_1  2  
-#define Relay_2  3
-#define Relay_3  4
-#define Relay_4  5
+#define Relay_1  2  // purple
+#define Relay_2  3  // white
+#define Relay_3  4  // orange
+#define Relay_4  5  // yellow
 
 // set temp
 float temp = 30;
