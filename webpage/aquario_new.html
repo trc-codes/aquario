@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Aquario State</title>
+        <script>
+		strHour = "";
+		strMinute = "";
+		strSecond = "";
+		function GetArduinoIO()
+		{
+			nocache = "&nocache=" + Math.random() * 1000000;
+			var request = new XMLHttpRequest();
+			request.onreadystatechange = function() {
+				if (this.readyState == 4) {
+					if (this.status == 200) {
+						if (this.responseXML != null) {
+							// XML file received - contains analog values, switch values and LED states
+							var count;
+							// get analog inputs
+							var num_an = this.responseXML.getElementsByTagName('analog').length;
+							for (count = 0; count < num_an; count++) {
+								document.getElementsByClassName("analog")[count].innerHTML =
+									this.responseXML.getElementsByTagName('analog')[count].childNodes[0].nodeValue;
+							}
+							// get switch inputs
+							var num_an = this.responseXML.getElementsByTagName('switch').length;
+							for (count = 0; count < num_an; count++) {
+								document.getElementsByClassName("switches")[count].innerHTML =
+									this.responseXML.getElementsByTagName('switch')[count].childNodes[0].nodeValue;
+							}
+							// LED 1
+							if (this.responseXML.getElementsByTagName('LED')[0].childNodes[0].nodeValue === "checked") {
+								document.LED_form.LED1.checked = true;
+							}
+							else {
+								document.LED_form.LED1.checked = false;
+							}
+							// LED 2
+							if (this.responseXML.getElementsByTagName('LED')[1].childNodes[0].nodeValue === "checked") {
+								document.LED_form.LED2.checked = true;
+							}
+							else {
+								document.LED_form.LED2.checked = false;
+							}
+							// LED 3
+							if (this.responseXML.getElementsByTagName('LED')[2].childNodes[0].nodeValue === "on") {
+								document.getElementById("LED3").innerHTML = "LED 3 is ON (D8)";
+								LED3_state = 1;
+							}
+							else {
+								document.getElementById("LED3").innerHTML = "LED 3 is OFF (D8)";
+								LED3_state = 0;
+							}
+							// LED 4
+							if (this.responseXML.getElementsByTagName('LED')[3].childNodes[0].nodeValue === "on") {
+								document.getElementById("LED4").innerHTML = "LED 4 is ON (D9)";
+								LED4_state = 1;
+							}
+							else {
+								document.getElementById("LED4").innerHTML = "LED 4 is OFF (D9)";
+								LED4_state = 0;
+							}
+						}
+					}
+				}
+			}
+			// send HTTP GET request
+			request.open("GET", "ajax_inputs" + strHour + strMinute + strSecond + nocache, true);
+			request.send(null);
+			setTimeout('GetArduinoIO()', 1000);
+		}
+		function SetCurrentTime() {
+			strHour = "&hr="+currentTime.hour.value;
+			strMinute = "&min="currentTime.minute.value;
+			strSecond = "&sec="currentTime.second.value;
+		}
+	</script>
+	<style>
+		.current-time {
+			float: left;
+			border: 1px solid #25661c;
+			margin: 0 20px 20px 0;
+			padding: 10px 20px 20px 20px;
+		}
+		.small-input {
+			width: 30px;
+		}
+		body {
+			font-family: Helvetica,Arial;
+		}
+		h1 {
+			font-size: 14px;
+		}
+		h2 {
+			font-size: 12px;
+		}
+	</style>
+    </head>
+    <body onload="GetArduinoIO()">
+        <h1>Aquario State</h1>
+        <div class="current-time">
+			<h2>Set current time</h2>
+			<form name="currentTime">
+				<input type="text" name="hour" placeholder="HH" class="small-input">
+				<span>:</span>
+				<input type="text" name="minute" placeholder="MM" class="small-input">
+				<span>:</span>
+				<input type="text" name="second" placeholder="SS" class="small-input">
+			</form>
+		</div>
+    </body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Aquario 1.0</title>
+        <script>
+			strText = "";
+			
+			function SendText() {
+				nocache = "&nocache=" + Math.random() * 1000000;
+				var request = new XMLHttpRequest();
+				
+				strText = "&r1=" + document.getElementById("data_form").relay_1.value + "&r2=" + document.getElementById("data_form").relay_2.value + "&r3=" + document.getElementById("data_form").relay_3.value + "&r4=" + document.getElementById("data_form").relay_4.value + "&end=end";
+				
+				request.open("GET", "ajax_inputs" + strText + nocache, true);
+				request.send(null);
+			}
+        </script>
+    </head>
+
+    <body onload="GetArduinoIO()">
+        <form id="data_form" name="data_form">
+            <textarea name="set_temp" rows="2" cols="20"></textarea>
+			<textarea name="relay_1" rows="2" cols="20"></textarea>
+			<textarea name="relay_2" rows="2" cols="20"></textarea>
+			<textarea name="relay_3" rows="2" cols="20"></textarea>
+			<textarea name="relay_4" rows="2" cols="20"></textarea>
+        </form>
+        <input type="submit" value="Send Values" onclick="SendText()" />
+    </body>
+
+</html>
