@@ -15,7 +15,7 @@
 #define ONE_WIRE_BUS 9
 
 // size of buffer used to capture HTTP requests
-#define REQ_BUF_SZ   60
+#define REQ_BUF_SZ   100
 
 // Define Relay Digital I/O pin number and names
 #define RELAY_ON LOW
@@ -59,12 +59,12 @@ void sdCardSetup() {
         return;    // init failed
     }
     Serial.println("SUCCESS - SD card initialized.");
-    // check for index.htm file
-    if (!SD.exists("index.htm")) {
-        Serial.println("ERROR - Can't find index.htm file!");
+    // check for state.htm file
+    if (!SD.exists("state.htm")) {
+        Serial.println("ERROR - Can't find state.htm file!");
         return;  // can't find index file
     }
-    Serial.println("SUCCESS - Found index.htm file.");
+    Serial.println("SUCCESS - Found state.htm file.");
 }
 
 // Init the DS3231 using the hardware interface
@@ -143,7 +143,7 @@ void setup() {
 
   // Initialize the rtc object
   rtc.begin();
-  setCurrentTime(10, 0, 0);     // Set the time to 12:00:00 (24hr format)
+  setCurrentTime(22, 04, 22);     // Set the time to 12:00:00 (24hr format)
 
   //set digital pins as outputs
   pinMode(relay_4, OUTPUT);  
@@ -165,12 +165,12 @@ void setup() {
 
 void loop() {
 
-  delay (2000);
-  turnRelayOn(5, "test relay");
-  // Wait one second before repeating :)
-  delay (1000);
-  turnRelayOff(5, "test relay");
-  delay (2000);
+//  delay (2000);
+//  turnRelayOn(5, "test relay");
+//  // Wait one second before repeating :)
+//  delay (1000);
+//  turnRelayOff(5, "test relay");
+//  delay (2000);
 
 //  t = rtc.getTimeStr();
 
@@ -231,20 +231,32 @@ void serveWebpage() {
                 // last line of client request is blank and ends with \n
                 // respond to client only after last line received
                 if (c == '\n' && currentLineIsBlank) {
-                    // send a standard http response header
-                    client.println("HTTP/1.1 200 OK");
-                    // remainder of header follows below, depending on if
-                    // web page or XML page is requested
-                    // Ajax request - send XML file
-                    if (StrContains(HTTP_req, "ajax_inputs")) {
+                      // send a standard http response header
+                      client.println("HTTP/1.1 200 OK");
+                      // remainder of header follows below, depending on if
+                      // web page or XML page is requested
+                      // Ajax request - send XML file
+                      if (StrContains(HTTP_req, "ajax_inputs")) {
                         // send rest of HTTP header
                         client.println("Content-Type: text/xml");
                         client.println("Connection: keep-alive");
                         client.println();
-                        int hours = StrContains(HTTP_req, "&hr=(%d+)");
-                        int minutes = StrContains(HTTP_req, "&min=(%d+)");
-                        int seconds = StrContains(HTTP_req, "&sec=(%d+)");
-                        setCurrentTime(hours, minutes, seconds);
+                        if (StrContains(HTTP_req, "&hr")) {
+                          // match state object
+                          MatchState ms;
+                          char buf [100];
+                          ms.Target (HTTP_req);  // set its address
+                          char result = ms.Match ("&hr=(%d+)&min=(%d+)&sec=(%d+)", 0);
+                          Serial.print ("Matched on: ");
+                          Serial.println (ms.GetMatch (buf));
+                          int currentHr = atoi(ms.GetCapture (buf, 0));
+                          Serial.println (currentHr);
+                          int currentMin = atoi(ms.GetCapture (buf, 1));
+                          Serial.println (currentMin);
+                          int currentSec = atoi(ms.GetCapture (buf, 2));
+                          Serial.println (currentSec);
+                          setCurrentTime(currentHr, currentMin, currentSec);
+                        }
                         // send XML file containing input states
                         XML_response(client);
                     } 
@@ -254,13 +266,25 @@ void serveWebpage() {
                         client.println("Content-Type: text/html");
                         client.println("Connection: keep-alive");
                         client.println();
-                        // send web page
-                        webFile = SD.open("aquario.html");        // open web page file
-                        if (webFile) {
-                            while(webFile.available()) {
+                        if (StrContains(HTTP_req, "GET /settings.htm")) {
+                          webFile = SD.open("settings.htm");
+                          if (webFile) {
+                              while(webFile.available()) {
                                 client.write(webFile.read()); // send web page to client
-                            }
-                            webFile.close();
+                              }
+                              webFile.close();
+                          }
+                        }
+
+                        else {
+                          // send web page
+                          webFile = SD.open("state.htm");        // open web page file
+                          if (webFile) {
+                              while(webFile.available()) {
+                                client.write(webFile.read()); // send web page to client
+                              }
+                              webFile.close();
+                          }
                         }
                     }
                     // display received HTTP request on serial port
@@ -288,8 +312,17 @@ void serveWebpage() {
     } // end if (client)
 }
 
-void XML_response(EthernetClient cl) {
-  
+void XML_response(EthernetClient cl ) {
+  sensors.requestTemperatures();    
+  cl.print("<?xml version = \"1.0\" ?>");
+  cl.print("<inputs>");
+  cl.print("<tankTemperature>");
+  cl.print(sensors.getTempCByIndex(0));
+  cl.print("</tankTemperature>");
+  cl.print("<currentTime>");
+  cl.print(rtc.getTimeStr());
+  cl.print("</currentTime>");
+  cl.print("</inputs>");
 }
 
 // sets every element of str to 0 (clears array)

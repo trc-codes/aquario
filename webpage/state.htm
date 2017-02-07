@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Aquario state</title>
+	<script>
+		strHour = "";
+		strMinute = "";
+		strSecond = "";
+		function GetArduinoIO()
+		{
+			nocache = "&nocache=" + Math.random() * 1000000;
+			var request = new XMLHttpRequest();
+			request.onreadystatechange = function() {
+				if (this.readyState == 4) {
+					if (this.status == 200) {
+						if (this.responseXML != null) {
+							// XML file received - contains something!
+							var count;
+							// get tank temp inputs
+							document.getElementById("tankTemp").innerHTML = this.responseXML.getElementsByTagName("tankTemperature")[0].childNodes[0].nodeValue;
+							// get current time inputs
+							document.getElementById("currentTime").innerHTML = this.responseXML.getElementsByTagName("currentTime")[0].childNodes[0].nodeValue;
+						}
+					}
+				}
+			}
+			// send HTTP GET request
+			request.open("GET", "ajax_inputs"+nocache, true);
+			request.send(null);
+			setTimeout('GetArduinoIO()', 1000);
+		}
+	</script>
+	<style>
+		.container {
+			width: 630px;
+			position: relative;
+			margin-left: auto;
+			margin-right: auto;
+			padding-right: 15px;
+			padding-left: 15px;
+		}
+		html {
+			font-family: Verdana, Geneva, sans-serif;
+			line-height: 1.15;
+			-ms-text-size-adjust: 100%;
+			-webkit-text-size-adjust: 100%;
+		}
+		body {
+			padding-bottom: 40px;
+			background-color: #eee;
+		}
+		.form-signin {
+			max-width: 620px;
+			padding: 15px;
+			margin: 0 auto;
+			margin-bottom: 20px;
+			min-height: 120px;
+		}
+		.form-signin .form-signin-heading,
+		.form-signin .checkbox {
+			margin-bottom: 10px;
+		}
+		.form-signin .checkbox {
+			font-weight: normal;
+		}
+		.form-signin .form-control {
+			position: relative;
+			height: auto;
+			-webkit-box-sizing: border-box;
+			box-sizing: border-box;
+			padding: 10px;
+			font-size: 16px;
+		}
+		.form-signin .form-control:focus {
+			z-index: 2;
+		}
+		.form-control {
+			display: block;
+			float: left;
+			margin-right: 10px;
+			width: 28%;
+			padding: 0.5rem 0.75rem;
+			font-size: 1rem;
+			line-height: 1.25;
+			color: #464a4c;
+			background-color: #fff;
+			background-image: none;
+			-webkit-background-clip: padding-box;
+			background-clip: padding-box;
+			border: 1px solid rgba(0, 0, 0, 0.15);
+			border-radius: 0.25rem;
+			-webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+			transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+			-o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+			transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+			transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+		}
+		.form-control-lg {
+			width: 100%;
+			margin-bottom: 10px;
+		}
+		.sr-only {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			padding: 0;
+			margin: -1px;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			border: 0;
+		}
+		.btn {
+			display: inline-block;
+			font-weight: normal;
+			line-height: 1.25;
+			text-align: center;
+			white-space: nowrap;
+			vertical-align: middle;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			border: 1px solid transparent;
+			padding: 0.5rem 1rem;
+			font-size: 1rem;
+			border-radius: 0.25rem;
+			-webkit-transition: all 0.2s ease-in-out;
+			-o-transition: all 0.2s ease-in-out;
+			transition: all 0.2s ease-in-out;
+		}
+		.btn-lg, .btn-group-lg > .btn {
+			padding: 0.75rem 1.5rem;
+			font-size: 1.25rem;
+			border-radius: 0.3rem;
+		}
+		.btn-block {
+			display: block;
+			width: 100%;
+		}
+		.btn-primary {
+			color: #fff;
+			background-color: #0275d8;
+			border-color: #0275d8;
+		}
+		.setTime {
+			font-size: 32px;
+			float: left;
+			width: 5px;
+			margin-right: 15px;
+		}
+		.aquario {
+			font-size: 40px;
+			color: #4CAF50;
+		}
+		.state {
+			background-color: #ffffff;
+			border: 2px solid #cccccc;
+			border-radius: 5px;
+		}
+		.time {
+			font-size: 50px;
+			color: #2f6fd6;
+			text-align: center;
+		}
+		.clear {
+			clear: both;
+		}
+		.header {
+			height: 130px;
+		}
+		.header > h1 {
+			float: left;
+		}
+		.header > ul {
+			float: right;
+			list-style: none;
+			padding: 10px 0;
+			font-weight: bold;
+		}
+		.header > ul > li > a {
+			color: #2f6fd6;
+			font-size: 20px;
+		}		
+	</style>
+</head>
+
+<body onload="GetArduinoIO()">
+
+    <div class="container">
+    
+		<div class="header">
+			<img src="http://trc.codes/aquario/logo.png" alt="Aquario" title="Aquario">
+			<ul>
+				<li><a href="settings.htm">Settings</a></li>
+			</ul>
+		</div>
+
+      	<div class="form-signin state">
+      		<h2 class="form-signin-heading">Current time</h2>
+      		<p class="time" id="currentTime"></p>
+      	</div>
+		
+		<div class="form-signin state">
+      		<h2 class="form-signin-heading">Current tank temperature</h2>
+      		<p class="time" id="tankTemp"></p>
+      	</div>
+      	
+      	<!-- <div class="form-signin state">
+      		<h2 class="form-signin-heading">Current Lights start time</h2>
+      		<p class="time">08:00:00</p>
+      		<h2 class="form-signin-heading">Current Lights end time</h2>
+      		<p class="time">16:00:00</p>
+      	</div>
+      	
+      	<div class="form-signin state">
+      		<h2 class="form-signin-heading">Current CO2 start time</h2>
+      		<p class="time">10:00:00</p>
+      		<h2 class="form-signin-heading">Current CO2 end time</h2>
+      		<p class="time">15:00:00</p>
+      	</div> -->
+    </div> <!-- /container -->
+</body>
+</html>
