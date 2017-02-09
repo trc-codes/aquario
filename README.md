@@ -8,8 +8,8 @@ Once you've checked out this project, you may find that there are some compilati
 
 # Hardware requirements
 
-Arduino Mega
-Arduino Ethernet shield
-DS3231 - Real time clock (RTC) board
-Mechanical relay board with 4 relays
-DS18B20 Dallas temperature sensors
++ Arduino Mega
++ Arduino Ethernet shield
++ DS3231 - Real time clock (RTC) board
++ Mechanical relay board with 4 relays
++ DS18B20 Dallas temperature sensors
