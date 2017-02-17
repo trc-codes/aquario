@@ -103,25 +103,25 @@ float getSetTemp() {
   return temp;
 }
 
-//void setSetTemp(float temp) {
-//  temp = temp;
-//}
+void setSetTemp(float temp) {
+  temp = temp;
+}
 
 float getUpperTempVariance() {
   return upperTempVariance;
 }
 
-//void setUpperTempVariance(float upperTempVariance) {
-//  upperTempVariance = upperTempVariance;
-//}
+void setUpperTempVariance(float upperTempVariance) {
+  upperTempVariance = upperTempVariance;
+}
 
 float getLowerTempVariance() {
   return lowerTempVariance;
 }
 
-//void setLowerTempVariance(float lowerTempVariance) {
-//  lowerTempVariance = lowerTempVariance;
-//}
+void setLowerTempVariance(float lowerTempVariance) {
+  lowerTempVariance = lowerTempVariance;
+}
 
 // declare upperTempLimit and lowerTempLimit
 float upperTempLimit = getSetTemp() + getUpperTempVariance();
@@ -143,7 +143,6 @@ void setup() {
 
   // Initialize the rtc object
   rtc.begin();
-  setCurrentTime(22, 04, 22);     // Set the time to 12:00:00 (24hr format)
 
   //set digital pins as outputs
   pinMode(relay_4, OUTPUT);  
@@ -164,18 +163,6 @@ void setup() {
 }
 
 void loop() {
-
-//  delay (2000);
-//  turnRelayOn(5, "test relay");
-//  // Wait one second before repeating :)
-//  delay (1000);
-//  turnRelayOff(5, "test relay");
-//  delay (2000);
-
-//  t = rtc.getTimeStr();
-
-//  Serial.println(rtc.getTimeStr());
-//
 //  checkTemp(insideThermometer);
   serveWebpage();
 }
@@ -247,15 +234,23 @@ void serveWebpage() {
                           char buf [100];
                           ms.Target (HTTP_req);  // set its address
                           char result = ms.Match ("&hr=(%d+)&min=(%d+)&sec=(%d+)", 0);
-                          Serial.print ("Matched on: ");
-                          Serial.println (ms.GetMatch (buf));
                           int currentHr = atoi(ms.GetCapture (buf, 0));
-                          Serial.println (currentHr);
                           int currentMin = atoi(ms.GetCapture (buf, 1));
-                          Serial.println (currentMin);
                           int currentSec = atoi(ms.GetCapture (buf, 2));
-                          Serial.println (currentSec);
                           setCurrentTime(currentHr, currentMin, currentSec);
+                        }
+                        if (StrContains(HTTP_req, "&tt")) {
+                          // match state object
+                          MatchState ms;
+                          char buf [100];
+                          ms.Target (HTTP_req);  // set its address
+                          char result = ms.Match ("&tt=(%d+)&tuv=(%d+)&tlv=(%d+)", 0);
+                          int tankTemp = atoi(ms.GetCapture (buf, 0));
+                          int tankTempUpperVar = atoi(ms.GetCapture (buf, 1));
+                          int tankTempLowerVar = atoi(ms.GetCapture (buf, 2));
+                          setSetTemp(tankTemp);
+                          setUpperTempVariance(tankTempUpperVar);
+                          setLowerTempVariance(tankTempLowerVar);
                         }
                         // send XML file containing input states
                         XML_response(client);
@@ -307,7 +302,7 @@ void serveWebpage() {
                 }
             } // end if (client.available())
         } // end while (client.connected())
-        delay(1);      // give the web browser time to receive the data
+        delay(1000);      // give the web browser time to receive the data
         client.stop(); // close the connection
     } // end if (client)
 }

@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <title>Aquario settings</title>
 	<script>
-		function GetArduinoIO()
-		{
+		function SetCurrentTime() {
 			strHour = "&hr="+document.getElementById("inputHours").value;
 			strMinute = "&min="+document.getElementById("inputMinutes").value;
 			strSecond = "&sec="+document.getElementById("inputSeconds").value;
@@ -13,6 +12,16 @@
 			var request = new XMLHttpRequest();
 			// send HTTP GET request
 			request.open("GET", "ajax_inputs" + strHour + strMinute + strSecond + nocache, true);
+			request.send();
+		}
+		function SetTankTemps() {
+			strTemp = "&tt="+document.getElementById("inputTankTemp").value;
+			strTempUV = "&tuv="+document.getElementById("inputTankUpperVariance").value;
+			strTempLV = "&tlv="+document.getElementById("inputTankLowerVariance").value;
+			nocache = "&nocache=" + Math.random() * 1000000;
+			var request = new XMLHttpRequest();
+			// send HTTP GET request
+			request.open("GET", "ajax_inputs" + strTemp + strTempUV + strTempLV + nocache, true);
 			request.send();
 		}
 	</script>
@@ -126,7 +135,7 @@
 		.btn-primary {
 			color: #fff;
 			background-color: #0275d8;
-			border-color: #0275d8;
+			border: 2px solid #2f6fd6;
 		}
 		.setTime {
 			font-size: 32px;
@@ -166,6 +175,10 @@
 		.header > ul > li > a {
 			color: #2f6fd6;
 			font-size: 20px;
+		}	
+		.centre {
+			text-align: center;
+			margin-top: 20px;
 		}		
 	</style>
   </head>
@@ -191,27 +204,31 @@
         	<span class="setTime">:</span>
         	<label for="inputSeconds" class="sr-only">Minutes</label>
         	<input type="text" id="inputSeconds" class="form-control" placeholder="SS" required>
-			<input type="button" id="submit" value="submit" onclick="GetArduinoIO()">
-<!-- 
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
-        </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
- -->
- 			<div class="clear"></div>
+        	<div class="clear"></div>
+        	<div class="centre">
+				<input type="button" class="btn btn-lg btn-primary" id="setCurrentTime" value="Set current time" onclick="SetCurrentTime()">
+			</div>
       	</form>
 		
 		<form class="form-signin state">
       		<h2 class="form-signin-heading">Set tank temperatures</h2>
-        	<label for="inputLightsStartTime">Tank temperature</label>
-        	<input type="text" id="inputTankTemp" class="form-control form-control-lg" placeholder="25" required>
-        	<label for="inputTankUpperVariance">Upper variance</label>
-        	<input type="text" id="inputTankUpperVariance" class="form-control form-control-lg" placeholder="3" required>
-			<label for="inputTankLowerVariance">Lower variance</label>
-        	<input type="text" id="inputTankLowerVariance" class="form-control form-control-lg" placeholder="3" required>
+      		<div class="form-group">
+	        	<label for="inputTankTemp">Tank temperature</label>
+    	    	<input type="text" id="inputTankTemp" class="form-control form-control-lg" placeholder="25" required>
+    	    </div>
+    	    <div class="form-group">
+	        	<label for="inputTankUpperVariance">Upper variance</label>
+    	    	<input type="text" id="inputTankUpperVariance" class="form-control form-control-lg" placeholder="3" required>
+    	    </div>
+			<div class="form-group">
+				<label for="inputTankLowerVariance">Lower variance</label>
+    	    	<input type="text" id="inputTankLowerVariance" class="form-control form-control-lg" placeholder="3" required>
+    	    </div>
         	<div class="clear"></div>
+        	<div class="centre">
+				<input type="button" class="btn btn-lg btn-primary" id="setTemps" value="Set tank temps" onclick="SetTankTemps()">
+			</div>
+ 			<div class="clear"></div>
       	</form>
       
       	<form class="form-signin state">
