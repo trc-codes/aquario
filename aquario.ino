@@ -15,7 +15,7 @@
 #define ONE_WIRE_BUS 9
 
 // size of buffer used to capture HTTP requests
-#define REQ_BUF_SZ   100
+#define REQ_BUF_SZ 100
 
 // Define Relay Digital I/O pin number and names
 #define RELAY_ON LOW
@@ -251,6 +251,21 @@ void serveWebpage() {
                           setSetTemp(tankTemp);
                           setUpperTempVariance(tankTempUpperVar);
                           setLowerTempVariance(tankTempLowerVar);
+                        }
+                        if (StrContains(HTTP_req, "&mst1")) {
+                          // match state object
+                          MatchState ms;
+                          char buf [100];
+                          ms.Target (HTTP_req);  // set its address
+                          char result = ms.Match ("&mst1=(%d+:%d+)&met1=(%d+:%d+)&mst2=(%d+:%d+)&met2=(%d+:%d+)&tst1=(%d+:%d+)&tet1=(%d+:%d+)&tst2=(%d+:%d+)&tet2=(%d+:%d+)&wst1=(%d+:%d+)&wet1=(%d+:%d+)&wst2=(%d+:%d+)&wet2=(%d+:%d+)&thst1=(%d+:%d+)&thet1=(%d+:%d+)&thst2=(%d+:%d+)&thet2=(%d+:%d+)&fst1=(%d+:%d+)&fet1=(%d+:%d+)&fst2=(%d+:%d+)&fet2=(%d+:%d+)&sst1=(%d+:%d+)&set1=(%d+:%d+)&sst2=(%d+:%d+)&set2=(%d+:%d+)&sust1=(%d+:%d+)&suet1=(%d+:%d+)&sust2=(%d+:%d+)&suet2=(%d+:%d+)", 0);
+                          int monStartTime1 = atoi(ms.GetCapture (buf, 0)); int monEndTime1 = atoi(ms.GetCapture (buf, 1)); int monStartTime2 = atoi(ms.GetCapture (buf, 2)); int monEndTime2 = atoi(ms.GetCapture (buf, 3)); 
+                          int tueStartTime1 = atoi(ms.GetCapture (buf, 4)); int tueEndTime1 = atoi(ms.GetCapture (buf, 5)); int tueStartTime2 = atoi(ms.GetCapture (buf, 6)); int tueEndTime2 = atoi(ms.GetCapture (buf, 7));
+                          int wedStartTime1 = atoi(ms.GetCapture (buf, 8)); int wedEndTime1 = atoi(ms.GetCapture (buf, 9)); int wedStartTime2 = atoi(ms.GetCapture (buf, 10)); int wedEndTime2 = atoi(ms.GetCapture (buf, 11));
+                          int thurStartTime1 = atoi(ms.GetCapture (buf, 12)); int thurEndTime1 = atoi(ms.GetCapture (buf, 13)); int thurStartTime2 = atoi(ms.GetCapture (buf, 14)); int thurEndTime2 = atoi(ms.GetCapture (buf, 15));
+                          int friStartTime1 = atoi(ms.GetCapture (buf, 16)); int friEndTime1 = atoi(ms.GetCapture (buf, 17)); int friStartTime2 = atoi(ms.GetCapture (buf, 18)); int friEndTime2 = atoi(ms.GetCapture (buf, 19));
+                          int satStartTime1 = atoi(ms.GetCapture (buf, 20)); int satEndTime1 = atoi(ms.GetCapture (buf, 21)); int satStartTime2 = atoi(ms.GetCapture (buf, 22)); int satEndTime2 = atoi(ms.GetCapture (buf, 23));
+                          int sunStartTime1 = atoi(ms.GetCapture (buf, 24)); int sunEndTime1 = atoi(ms.GetCapture (buf, 25)); int sunStartTime2 = atoi(ms.GetCapture (buf, 26)); int sunEndTime2 = atoi(ms.GetCapture (buf, 27));
+                          
                         }
                         // send XML file containing input states
                         XML_response(client);
