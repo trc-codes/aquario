@@ -14,6 +14,16 @@
 			request.open("GET", "ajax_inputs" + strHour + strMinute + strSecond + nocache, true);
 			request.send();
 		}
+		function SetCurrentDate() {
+			strDay = "&day="+document.getElementById("inputDay").value;
+			strMonth = "&mon="+document.getElementById("inputMonth").value;
+			strYear = "&year="+document.getElementById("inputYear").value;
+			nocache = "&nocache=" + Math.random() * 1000000;
+			var request = new XMLHttpRequest();
+			// send HTTP GET request
+			request.open("GET", "ajax_inputs" + strDay + strMonth + strYear + nocache, true);
+			request.send();
+		}
 		function SetTankTemps() {
 			strTemp = "&tt="+document.getElementById("inputTankTemp").value;
 			strTempUV = "&tuv="+document.getElementById("inputTankUpperVariance").value;
@@ -24,6 +34,7 @@
 			request.open("GET", "ajax_inputs" + strTemp + strTempUV + strTempLV + nocache, true);
 			request.send();
 		}
+		// set Lights Schedules
 		function SetMonLightSchedule() {
 			strMST1 = "&mst1="+document.getElementById("inputMonLightsStartTime1").value;
 			strMET1 = "&met1="+document.getElementById("inputMonLightsEndTime1").value;
@@ -101,6 +112,91 @@
 			strSuET1 = "&suet1="+document.getElementById("inputSunLightsEndTime1").value;
 			strSuST2 = "&sust2="+document.getElementById("inputSunLightsStartTime2").value;
 			strSuET2 = "&suet2="+document.getElementById("inputSunLightsEndTime2").value;
+			nocache = "&nocache=" + Math.random() * 1000000;
+			
+			var request = new XMLHttpRequest();
+			// send HTTP GET request
+			request.open("GET", "ajax_inputs" + strSuST1 + strSuET1 + strSuST2 + strSuET2 + nocache, true);
+			request.send();
+		}
+		// set Co2 Schedules
+		function SetMonCo2Schedule() {
+			strMST1 = "&co2mst1="+document.getElementById("inputMonCo2StartTime1").value;
+			strMET1 = "&co2met1="+document.getElementById("inputMonCo2EndTime1").value;
+			strMST2 = "&co2mst2="+document.getElementById("inputMonCo2StartTime2").value;
+			strMET2 = "&co2met2="+document.getElementById("inputMonCo2EndTime2").value;
+			nocache = "&nocache=" + Math.random() * 1000000;
+			
+			var request = new XMLHttpRequest();
+			// send HTTP GET request
+			request.open("GET", "ajax_inputs" + strMST1 + strMET1 + strMST2 + strMET2 + nocache, true);
+			request.send();
+		}
+		function SetTueCo2Schedule() {
+			strTST1 = "&co2tst1="+document.getElementById("inputTueCo2StartTime1").value;
+			strTET1 = "&co2tet1="+document.getElementById("inputTueCo2EndTime1").value;
+			strTST2 = "&co2tst2="+document.getElementById("inputTueCo2StartTime2").value;
+			strTET2 = "&co2tet2="+document.getElementById("inputTueCo2EndTime2").value;
+			nocache = "&nocache=" + Math.random() * 1000000;
+			
+			var request = new XMLHttpRequest();
+			// send HTTP GET request
+			request.open("GET", "ajax_inputs" + strTST1 + strTET1 + strTST2 + strTET2 + nocache, true);
+			request.send();
+		}
+		function SetWedCo2Schedule() {
+			strWST1 = "&co2wst1="+document.getElementById("inputWedCo2StartTime1").value;
+			strWET1 = "&co2wet1="+document.getElementById("inputWedCo2EndTime1").value;
+			strWST2 = "&co2wst2="+document.getElementById("inputWedCo2StartTime2").value;
+			strWET2 = "&co2wet2="+document.getElementById("inputWedCo2EndTime2").value;
+			nocache = "&nocache=" + Math.random() * 1000000;
+			
+			var request = new XMLHttpRequest();
+			// send HTTP GET request
+			request.open("GET", "ajax_inputs" + strWST1 + strWET1 + strWST2 + strWET2 + nocache, true);
+			request.send();
+		}
+		function SetThurCo2Schedule() {
+			strThST1 = "&co2thst1="+document.getElementById("inputThurCo2StartTime1").value;
+			strThET1 = "&co2thet1="+document.getElementById("inputThurCo2EndTime1").value;
+			strThST2 = "&co2thst2="+document.getElementById("inputThurCo2StartTime2").value;
+			strThET2 = "&co2thet2="+document.getElementById("inputThurCo2EndTime2").value;
+			nocache = "&nocache=" + Math.random() * 1000000;
+			
+			var request = new XMLHttpRequest();
+			// send HTTP GET request
+			request.open("GET", "ajax_inputs" + strThST1 + strThET1 + strThST2 + strThET2 + nocache, true);
+			request.send();
+		}
+		function SetFriCo2Schedule() {
+			strFST1 = "&co2fst1="+document.getElementById("inputFriCo2StartTime1").value;
+			strFET1 = "&co2fet1="+document.getElementById("inputFriCo2EndTime1").value;
+			strFST2 = "&co2fst2="+document.getElementById("inputFriCo2StartTime2").value;
+			strFET2 = "&co2fet2="+document.getElementById("inputFriCo2EndTime2").value;
+			nocache = "&nocache=" + Math.random() * 1000000;
+			
+			var request = new XMLHttpRequest();
+			// send HTTP GET request
+			request.open("GET", "ajax_inputs" + strFST1 + strFET1 + strFST2 + strFET2 + nocache, true);
+			request.send();
+		}
+		function SetSatCo2Schedule() {
+			strSST1 = "&co2sst1="+document.getElementById("inputSatCo2StartTime1").value;
+			strSET1 = "&co2set1="+document.getElementById("inputSatCo2EndTime1").value;
+			strSST2 = "&co2sst2="+document.getElementById("inputSatCo2StartTime2").value;
+			strSET2 = "&co2set2="+document.getElementById("inputSatCo2EndTime2").value;
+			nocache = "&nocache=" + Math.random() * 1000000;
+			
+			var request = new XMLHttpRequest();
+			// send HTTP GET request
+			request.open("GET", "ajax_inputs" + strSST1 + strSET1 + strSST2 + strSET2 + nocache, true);
+			request.send();
+		}
+		function SetSunCo2Schedule() {
+			strSuST1 = "&co2sust1="+document.getElementById("inputSunCo2StartTime1").value;
+			strSuET1 = "&co2suet1="+document.getElementById("inputSunCo2EndTime1").value;
+			strSuST2 = "&co2sust2="+document.getElementById("inputSunCo2StartTime2").value;
+			strSuET2 = "&co2suet2="+document.getElementById("inputSunCo2EndTime2").value;
 			nocache = "&nocache=" + Math.random() * 1000000;
 			
 			var request = new XMLHttpRequest();
@@ -299,6 +395,22 @@
       	</form>
 		
 		<form class="form-signin state">
+        	<h2 class="form-signin-heading">Set the current date</h2>
+        	<label for="inputDay" class="sr-only">Day</label>
+        	<input type="text" id="inputDay" class="form-control" placeholder="DD" required autofocus>
+        	<span class="setTime">/</span>
+        	<label for="inputMonth" class="sr-only">Month</label>
+        	<input type="text" id="inputMonth" class="form-control" placeholder="MM" required>
+        	<span class="setTime">/</span>
+        	<label for="inputYear" class="sr-only">Year</label>
+        	<input type="text" id="inputYear" class="form-control" placeholder="YYYY" required>
+        	<div class="clear"></div>
+        	<div class="centre">
+				<input type="button" class="btn btn-lg btn-primary" id="setCurrentDate" value="Set current date" onclick="SetCurrentDate()">
+			</div>
+      	</form>
+		
+		<form class="form-signin state">
       		<h2 class="form-signin-heading">Set tank temperatures</h2>
       		<div class="form-group">
 	        	<label for="inputTankTemp">Tank temperature</label>
@@ -415,12 +527,98 @@
       	</form>
       
       	<form class="form-signin state">
-      		<h2 class="form-signin-heading">Set lights CO2 schedule</h2>
-        	<label for="inputCo2StartTime" class="sr-only">Start time</label>
-        	<input type="text" id="inputCo2StartTime" class="form-control form-control-lg" placeholder="Start time in HH:MM:SS" required>
-        	<label for="inputCo2EndTime" class="sr-only">End time</label>
-        	<input type="text" id="inputCo2EndTime" class="form-control form-control-lg" placeholder="End time in HH:MM:SS" required>
+      		<h2 class="form-signin-heading">Set Co2 schedule</h2>
+			<p>Monday:</p>
+        	<label for="inputMonCo2StartTime1" class="sr-only">Start time 1</label>
+        	<input type="text" id="inputMonCo2StartTime1" class="form-control form-control-sml" placeholder="Start time 1 in HH:MM" required>
+        	<label for="inputMonCo2EndTime1" class="sr-only">End time 1</label>
+			<input type="text" id="inputMonCo2EndTime1" class="form-control form-control-sml" placeholder="End time 1 in HH:MM" required>
+			<label for="inputMonCo2StartTime2" class="sr-only">Start time 2</label>
+        	<input type="text" id="inputMonCo2StartTime2" class="form-control form-control-sml" placeholder="Start time 2 in HH:MM" required>
+        	<label for="inputMonCo2EndTime2" class="sr-only">End time 2</label>
+        	<input type="text" id="inputMonCo2EndTime2" class="form-control form-control-sml" placeholder="End time 2 in HH:MM" required>
+			<div class="centre">
+				<input type="button" class="btn btn-lg btn-primary" id="setMonCo2Schedule" value="Set Monday Co2 Schedule" onclick="SetMonCo2Schedule()">
+			</div>
+			
+			<p>Tuesday:</p>
+        	<label for="inputTueCo2StartTime1" class="sr-only">Start time 1</label>
+        	<input type="text" id="inputTueCo2StartTime1" class="form-control form-control-sml" placeholder="Start time 1 in HH:MM" required>
+        	<label for="inputTueCo2EndTime1" class="sr-only">End time 1</label>
+			<input type="text" id="inputTueCo2EndTime1" class="form-control form-control-sml" placeholder="End time 1 in HH:MM" required>
+			<label for="inputTueCo2StartTime2" class="sr-only">Start time 2</label>
+        	<input type="text" id="inputTueCo2StartTime2" class="form-control form-control-sml" placeholder="Start time 2 in HH:MM" required>
+        	<label for="inputTueCo2EndTime2" class="sr-only">End time 2</label>
+        	<input type="text" id="inputTueCo2EndTime2" class="form-control form-control-sml" placeholder="End time 2 in HH:MM" required>
+			<div class="centre">
+				<input type="button" class="btn btn-lg btn-primary" id="setTueCo2Schedule" value="Set Tuesday Co2 Schedule" onclick="SetTueCo2Schedule()">
+			</div>
+			
+			<p>Wednesday:</p>
+        	<label for="inputWedCo2StartTime1" class="sr-only">Start time 1</label>
+        	<input type="text" id="inputWedCo2StartTime1" class="form-control form-control-sml" placeholder="Start time 1 in HH:MM" required>
+        	<label for="inputWedCo2EndTime1" class="sr-only">End time 1</label>
+			<input type="text" id="inputWedCo2EndTime1" class="form-control form-control-sml" placeholder="End time 1 in HH:MM" required>
+			<label for="inputWedCo2StartTime2" class="sr-only">Start time 2</label>
+        	<input type="text" id="inputWedCo2StartTime2" class="form-control form-control-sml" placeholder="Start time 2 in HH:MM" required>
+        	<label for="inputWedCo2EndTime2" class="sr-only">End time 2</label>
+        	<input type="text" id="inputWedCo2EndTime2" class="form-control form-control-sml" placeholder="End time 2 in HH:MM" required>
+			<div class="centre">
+				<input type="button" class="btn btn-lg btn-primary" id="setWedCo2Schedule" value="Set Wednesday Co2 Schedule" onclick="SetWedCo2Schedule()">
+			</div>
+			
+			<p>Thursday:</p>
+        	<label for="inputThurCo2StartTime1" class="sr-only">Start time 1</label>
+        	<input type="text" id="inputThurCo2StartTime1" class="form-control form-control-sml" placeholder="Start time 1 in HH:MM" required>
+        	<label for="inputThurCo2EndTime1" class="sr-only">End time 1</label>
+			<input type="text" id="inputThurCo2EndTime1" class="form-control form-control-sml" placeholder="End time 1 in HH:MM" required>
+			<label for="inputThurCo2StartTime2" class="sr-only">Start time 2</label>
+        	<input type="text" id="inputThurCo2StartTime2" class="form-control form-control-sml" placeholder="Start time 2 in HH:MM" required>
+        	<label for="inputThurCo2EndTime2" class="sr-only">End time 2</label>
+        	<input type="text" id="inputThurCo2EndTime2" class="form-control form-control-sml" placeholder="End time 2 in HH:MM" required>
+			<div class="centre">
+				<input type="button" class="btn btn-lg btn-primary" id="setThurCo2Schedule" value="Set Thursday Co2 Schedule" onclick="SetThurCo2Schedule()">
+			</div>
+			
+			<p>Friday:</p>
+        	<label for="inputFriCo2StartTime1" class="sr-only">Start time 1</label>
+        	<input type="text" id="inputFriCo2StartTime1" class="form-control form-control-sml" placeholder="Start time 1 in HH:MM" required>
+        	<label for="inputFriCo2EndTime1" class="sr-only">End time 1</label>
+			<input type="text" id="inputFriCo2EndTime1" class="form-control form-control-sml" placeholder="End time 1 in HH:MM" required>
+			<label for="inputFriCo2StartTime2" class="sr-only">Start time 2</label>
+        	<input type="text" id="inputFriCo2StartTime2" class="form-control form-control-sml" placeholder="Start time 2 in HH:MM" required>
+        	<label for="inputFriCo2EndTime2" class="sr-only">End time 2</label>
+        	<input type="text" id="inputFriCo2EndTime2" class="form-control form-control-sml" placeholder="End time 2 in HH:MM" required>
+			<div class="centre">
+				<input type="button" class="btn btn-lg btn-primary" id="setFriCo2Schedule" value="Set Friday Co2 Schedule" onclick="SetFriCo2Schedule()">
+			</div>
+			
+			<p>Saturday:</p>
+        	<label for="inputSatCo2StartTime1" class="sr-only">Start time 1</label>
+        	<input type="text" id="inputSatCo2StartTime1" class="form-control form-control-sml" placeholder="Start time 1 in HH:MM" required>
+        	<label for="inputSatCo2EndTime1" class="sr-only">End time 1</label>
+			<input type="text" id="inputSatCo2EndTime1" class="form-control form-control-sml" placeholder="End time 1 in HH:MM" required>
+			<label for="inputSatLightsCo2Time2" class="sr-only">Start time 2</label>
+        	<input type="text" id="inputSatCo2StartTime2" class="form-control form-control-sml" placeholder="Start time 2 in HH:MM" required>
+        	<label for="inputSatLightsEndTime2" class="sr-only">End time 2</label>
+        	<input type="text" id="inputSatCo2EndTime2" class="form-control form-control-sml" placeholder="End time 2 in HH:MM" required>
+			<div class="centre">
+				<input type="button" class="btn btn-lg btn-primary" id="setSatCo2Schedule" value="Set Saturday Co2 Schedule" onclick="SetSatCo2Schedule()">
+			</div>
+			
+			<p>Sunday:</p>
+        	<label for="inputSunCo2StartTime1" class="sr-only">Start time 1</label>
+        	<input type="text" id="inputSunCo2StartTime1" class="form-control form-control-sml" placeholder="Start time 1 in HH:MM" required>
+        	<label for="inputSunCo2EndTime1" class="sr-only">End time 1</label>
+			<input type="text" id="inputSunCo2EndTime1" class="form-control form-control-sml" placeholder="End time 1 in HH:MM" required>
+			<label for="inputSunCo2StartTime2" class="sr-only">Start time 2</label>
+        	<input type="text" id="inputSunCo2StartTime2" class="form-control form-control-sml" placeholder="Start time 2 in HH:MM" required>
+        	<label for="inputSunCo2EndTime2" class="sr-only">End time 2</label>
+        	<input type="text" id="inputSunCo2EndTime2" class="form-control form-control-sml" placeholder="End time 2 in HH:MM" required>
         	<div class="clear"></div>
+			<div class="centre">
+				<input type="button" class="btn btn-lg btn-primary" id="setSunCo2Schedule" value="Set Sunday Co2 Schedule" onclick="SetSunCo2Schedule()">
+			</div>
       	</form>
 
     </div> <!-- /container -->
