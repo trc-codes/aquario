@@ -24,52 +24,88 @@
 			request.open("GET", "ajax_inputs" + strTemp + strTempUV + strTempLV + nocache, true);
 			request.send();
 		}
-		function SetLightSchedule() {
+		function SetMonLightSchedule() {
 			strMST1 = "&mst1="+document.getElementById("inputMonLightsStartTime1").value;
 			strMET1 = "&met1="+document.getElementById("inputMonLightsEndTime1").value;
 			strMST2 = "&mst2="+document.getElementById("inputMonLightsStartTime2").value;
 			strMET2 = "&met2="+document.getElementById("inputMonLightsEndTime2").value;
+			nocache = "&nocache=" + Math.random() * 1000000;
 			
+			var request = new XMLHttpRequest();
+			// send HTTP GET request
+			request.open("GET", "ajax_inputs" + strMST1 + strMET1 + strMST2 + strMET2 + nocache, true);
+			request.send();
+		}
+		function SetTueLightSchedule() {
 			strTST1 = "&tst1="+document.getElementById("inputTueLightsStartTime1").value;
 			strTET1 = "&tet1="+document.getElementById("inputTueLightsEndTime1").value;
 			strTST2 = "&tst2="+document.getElementById("inputTueLightsStartTime2").value;
 			strTET2 = "&tet2="+document.getElementById("inputTueLightsEndTime2").value;
+			nocache = "&nocache=" + Math.random() * 1000000;
 			
+			var request = new XMLHttpRequest();
+			// send HTTP GET request
+			request.open("GET", "ajax_inputs" + strTST1 + strTET1 + strTST2 + strTET2 + nocache, true);
+			request.send();
+		}
+		function SetWedLightSchedule() {
 			strWST1 = "&wst1="+document.getElementById("inputWedLightsStartTime1").value;
 			strWET1 = "&wet1="+document.getElementById("inputWedLightsEndTime1").value;
 			strWST2 = "&wst2="+document.getElementById("inputWedLightsStartTime2").value;
 			strWET2 = "&wet2="+document.getElementById("inputWedLightsEndTime2").value;
+			nocache = "&nocache=" + Math.random() * 1000000;
 			
+			var request = new XMLHttpRequest();
+			// send HTTP GET request
+			request.open("GET", "ajax_inputs" + strWST1 + strWET1 + strWST2 + strWET2 + nocache, true);
+			request.send();
+		}
+		function SetThurLightSchedule() {
 			strThST1 = "&thst1="+document.getElementById("inputThurLightsStartTime1").value;
 			strThET1 = "&thet1="+document.getElementById("inputThurLightsEndTime1").value;
 			strThST2 = "&thst2="+document.getElementById("inputThurLightsStartTime2").value;
 			strThET2 = "&thet2="+document.getElementById("inputThurLightsEndTime2").value;
+			nocache = "&nocache=" + Math.random() * 1000000;
 			
+			var request = new XMLHttpRequest();
+			// send HTTP GET request
+			request.open("GET", "ajax_inputs" + strThST1 + strThET1 + strThST2 + strThET2 + nocache, true);
+			request.send();
+		}
+		function SetFriLightSchedule() {
 			strFST1 = "&fst1="+document.getElementById("inputFriLightsStartTime1").value;
 			strFET1 = "&fet1="+document.getElementById("inputFriLightsEndTime1").value;
 			strFST2 = "&fst2="+document.getElementById("inputFriLightsStartTime2").value;
 			strFET2 = "&fet2="+document.getElementById("inputFriLightsEndTime2").value;
+			nocache = "&nocache=" + Math.random() * 1000000;
 			
+			var request = new XMLHttpRequest();
+			// send HTTP GET request
+			request.open("GET", "ajax_inputs" + strFST1 + strFET1 + strFST2 + strFET2 + nocache, true);
+			request.send();
+		}
+		function SetSatLightSchedule() {
 			strSST1 = "&sst1="+document.getElementById("inputSatLightsStartTime1").value;
 			strSET1 = "&set1="+document.getElementById("inputSatLightsEndTime1").value;
 			strSST2 = "&sst2="+document.getElementById("inputSatLightsStartTime2").value;
 			strSET2 = "&set2="+document.getElementById("inputSatLightsEndTime2").value;
+			nocache = "&nocache=" + Math.random() * 1000000;
 			
+			var request = new XMLHttpRequest();
+			// send HTTP GET request
+			request.open("GET", "ajax_inputs" + strSST1 + strSET1 + strSST2 + strSET2 + nocache, true);
+			request.send();
+		}
+		function SetSunLightSchedule() {
 			strSuST1 = "&sust1="+document.getElementById("inputSunLightsStartTime1").value;
 			strSuET1 = "&suet1="+document.getElementById("inputSunLightsEndTime1").value;
 			strSuST2 = "&sust2="+document.getElementById("inputSunLightsStartTime2").value;
 			strSuET2 = "&suet2="+document.getElementById("inputSunLightsEndTime2").value;
 			nocache = "&nocache=" + Math.random() * 1000000;
+			
 			var request = new XMLHttpRequest();
 			// send HTTP GET request
-			request.open("GET", "ajax_inputs" + strMST1 + strMET1 + strMST2 + strMET2
-			+ strTST1 + strTET1 + strTST2 + strTET2 
-			+ strWST1 + strWET1 + strWST2 + strWET2
-			+ strThST1 + strThET1 + strThST2 + strThET2
-			+ strFST1 + strFET1 + strFST2 + strFET2
-			+ strSST1 + strSET1 + strSST2 + strSET2
-			+ strSuST1 + strSuET1 + strSuST2 + strSuET2
-			+ nocache, true);
+			request.open("GET", "ajax_inputs" + strSuST1 + strSuET1 + strSuST2 + strSuET2 + nocache, true);
 			request.send();
 		}
 	</script>
@@ -294,6 +330,9 @@
         	<input type="text" id="inputMonLightsStartTime2" class="form-control form-control-sml" placeholder="Start time 2 in HH:MM" required>
         	<label for="inputMonLightsEndTime2" class="sr-only">End time 2</label>
         	<input type="text" id="inputMonLightsEndTime2" class="form-control form-control-sml" placeholder="End time 2 in HH:MM" required>
+			<div class="centre">
+				<input type="button" class="btn btn-lg btn-primary" id="setMonLightSchedule" value="Set Monday Light Schedule" onclick="SetMonLightSchedule()">
+			</div>
 			
 			<p>Tuesday:</p>
         	<label for="inputTueLightsStartTime1" class="sr-only">Start time 1</label>
@@ -304,6 +343,9 @@
         	<input type="text" id="inputTueLightsStartTime2" class="form-control form-control-sml" placeholder="Start time 2 in HH:MM" required>
         	<label for="inputTueLightsEndTime2" class="sr-only">End time 2</label>
         	<input type="text" id="inputTueLightsEndTime2" class="form-control form-control-sml" placeholder="End time 2 in HH:MM" required>
+			<div class="centre">
+				<input type="button" class="btn btn-lg btn-primary" id="setTueLightSchedule" value="Set Tuesday Light Schedule" onclick="SetTueLightSchedule()">
+			</div>
 			
 			<p>Wednesday:</p>
         	<label for="inputWedLightsStartTime1" class="sr-only">Start time 1</label>
@@ -314,6 +356,9 @@
         	<input type="text" id="inputWedLightsStartTime2" class="form-control form-control-sml" placeholder="Start time 2 in HH:MM" required>
         	<label for="inputWedLightsEndTime2" class="sr-only">End time 2</label>
         	<input type="text" id="inputWedLightsEndTime2" class="form-control form-control-sml" placeholder="End time 2 in HH:MM" required>
+			<div class="centre">
+				<input type="button" class="btn btn-lg btn-primary" id="setWedLightSchedule" value="Set Wednesday Light Schedule" onclick="SetWedLightSchedule()">
+			</div>
 			
 			<p>Thursday:</p>
         	<label for="inputThurLightsStartTime1" class="sr-only">Start time 1</label>
@@ -324,6 +369,9 @@
         	<input type="text" id="inputThurLightsStartTime2" class="form-control form-control-sml" placeholder="Start time 2 in HH:MM" required>
         	<label for="inputThurLightsEndTime2" class="sr-only">End time 2</label>
         	<input type="text" id="inputThurLightsEndTime2" class="form-control form-control-sml" placeholder="End time 2 in HH:MM" required>
+			<div class="centre">
+				<input type="button" class="btn btn-lg btn-primary" id="setThurLightSchedule" value="Set Thursday Light Schedule" onclick="SetThurLightSchedule()">
+			</div>
 			
 			<p>Friday:</p>
         	<label for="inputFriLightsStartTime1" class="sr-only">Start time 1</label>
@@ -334,6 +382,9 @@
         	<input type="text" id="inputFriLightsStartTime2" class="form-control form-control-sml" placeholder="Start time 2 in HH:MM" required>
         	<label for="inputFriLightsEndTime2" class="sr-only">End time 2</label>
         	<input type="text" id="inputFriLightsEndTime2" class="form-control form-control-sml" placeholder="End time 2 in HH:MM" required>
+			<div class="centre">
+				<input type="button" class="btn btn-lg btn-primary" id="setFriLightSchedule" value="Set Friday Light Schedule" onclick="SetFriLightSchedule()">
+			</div>
 			
 			<p>Saturday:</p>
         	<label for="inputSatLightsStartTime1" class="sr-only">Start time 1</label>
@@ -344,6 +395,9 @@
         	<input type="text" id="inputSatLightsStartTime2" class="form-control form-control-sml" placeholder="Start time 2 in HH:MM" required>
         	<label for="inputSatLightsEndTime2" class="sr-only">End time 2</label>
         	<input type="text" id="inputSatLightsEndTime2" class="form-control form-control-sml" placeholder="End time 2 in HH:MM" required>
+			<div class="centre">
+				<input type="button" class="btn btn-lg btn-primary" id="setSatLightSchedule" value="Set Saturday Light Schedule" onclick="SetSatLightSchedule()">
+			</div>
 			
 			<p>Sunday:</p>
         	<label for="inputSunLightsStartTime1" class="sr-only">Start time 1</label>
@@ -356,7 +410,7 @@
         	<input type="text" id="inputSunLightsEndTime2" class="form-control form-control-sml" placeholder="End time 2 in HH:MM" required>
         	<div class="clear"></div>
 			<div class="centre">
-				<input type="button" class="btn btn-lg btn-primary" id="setLightSchedule" value="Set Light Schedule" onclick="SetLightSchedule()">
+				<input type="button" class="btn btn-lg btn-primary" id="setSunLightSchedule" value="Set Sunday Light Schedule" onclick="SetSunLightSchedule()">
 			</div>
       	</form>
       

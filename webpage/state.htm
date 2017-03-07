@@ -19,8 +19,78 @@
 							var count;
 							// get tank temp inputs
 							document.getElementById("tankTemp").innerHTML = this.responseXML.getElementsByTagName("tankTemperature")[0].childNodes[0].nodeValue;
+							
 							// get current time inputs
 							document.getElementById("currentTime").innerHTML = this.responseXML.getElementsByTagName("currentTime")[0].childNodes[0].nodeValue;
+							
+							// get current date inputs
+							document.getElementById("currentDate").innerHTML = this.responseXML.getElementsByTagName("currentDate")[0].childNodes[0].nodeValue;
+							
+							// get current day inputs
+							document.getElementById("currentDay").innerHTML = this.responseXML.getElementsByTagName("currentDay")[0].childNodes[0].nodeValue;
+							
+							// get current monday lights start time 1 inputs
+							document.getElementById("monLightsST1").innerHTML = this.responseXML.getElementsByTagName("MondayLightsStartTime1")[0].childNodes[0].nodeValue;
+							// get current monday lights end time 1 inputs
+							document.getElementById("monLightsET1").innerHTML = this.responseXML.getElementsByTagName("MondayLightsEndTime1")[0].childNodes[0].nodeValue;
+							// get current monday lights start time 2 inputs
+							document.getElementById("monLightsST2").innerHTML = this.responseXML.getElementsByTagName("MondayLightsStartTime2")[0].childNodes[0].nodeValue;
+							// get current monday lights end time 2 inputs
+							document.getElementById("monLightsET2").innerHTML = this.responseXML.getElementsByTagName("MondayLightsEndTime2")[0].childNodes[0].nodeValue;
+							
+							// get current tuesday lights start time 1 inputs
+							document.getElementById("tueLightsST1").innerHTML = this.responseXML.getElementsByTagName("TuesdayLightsStartTime1")[0].childNodes[0].nodeValue;
+							// get current tuesday lights end time 1 inputs
+							document.getElementById("tueLightsET1").innerHTML = this.responseXML.getElementsByTagName("TuesdayLightsEndTime1")[0].childNodes[0].nodeValue;
+							// get current tuesday lights start time 2 inputs
+							document.getElementById("tueLightsST2").innerHTML = this.responseXML.getElementsByTagName("TuesdayLightsStartTime2")[0].childNodes[0].nodeValue;
+							// get current tuesday lights end time 2 inputs
+							document.getElementById("tueLightsET2").innerHTML = this.responseXML.getElementsByTagName("TuesdayLightsEndTime2")[0].childNodes[0].nodeValue;
+							
+							// get current wednesday lights start time 1 inputs
+							document.getElementById("wedLightsST1").innerHTML = this.responseXML.getElementsByTagName("WednesdayLightsStartTime1")[0].childNodes[0].nodeValue;
+							// get current wednesday lights end time 1 inputs
+							document.getElementById("wedLightsET1").innerHTML = this.responseXML.getElementsByTagName("WednesdayLightsEndTime1")[0].childNodes[0].nodeValue;
+							// get current wednesday lights start time 2 inputs
+							document.getElementById("wedLightsST2").innerHTML = this.responseXML.getElementsByTagName("WednesdayLightsStartTime2")[0].childNodes[0].nodeValue;
+							// get current wednesday lights end time 2 inputs
+							document.getElementById("wedLightsET2").innerHTML = this.responseXML.getElementsByTagName("WednesdayLightsEndTime2")[0].childNodes[0].nodeValue;
+							
+							// get current thursday lights start time 1 inputs
+							document.getElementById("thurLightsST1").innerHTML = this.responseXML.getElementsByTagName("ThursdayLightsStartTime1")[0].childNodes[0].nodeValue;
+							// get current thursday lights end time 1 inputs
+							document.getElementById("thurLightsET1").innerHTML = this.responseXML.getElementsByTagName("ThursdayLightsEndTime1")[0].childNodes[0].nodeValue;
+							// get current thursday lights start time 2 inputs
+							document.getElementById("thurLightsST2").innerHTML = this.responseXML.getElementsByTagName("ThursdayLightsStartTime2")[0].childNodes[0].nodeValue;
+							// get current thursday lights end time 2 inputs
+							document.getElementById("thurLightsET2").innerHTML = this.responseXML.getElementsByTagName("ThursdayLightsEndTime2")[0].childNodes[0].nodeValue;
+							
+							// get current friday lights start time 1 inputs
+							document.getElementById("friLightsST1").innerHTML = this.responseXML.getElementsByTagName("FridayLightsStartTime1")[0].childNodes[0].nodeValue;
+							// get current friday lights end time 1 inputs
+							document.getElementById("friLightsET1").innerHTML = this.responseXML.getElementsByTagName("FridayLightsEndTime1")[0].childNodes[0].nodeValue;
+							// get current friday lights start time 2 inputs
+							document.getElementById("friLightsST2").innerHTML = this.responseXML.getElementsByTagName("FridayLightsStartTime2")[0].childNodes[0].nodeValue;
+							// get current friday lights end time 2 inputs
+							document.getElementById("friLightsET2").innerHTML = this.responseXML.getElementsByTagName("FridayLightsEndTime2")[0].childNodes[0].nodeValue;
+							
+							// get current saturday lights start time 1 inputs
+							document.getElementById("satLightsST1").innerHTML = this.responseXML.getElementsByTagName("SaturdayLightsStartTime1")[0].childNodes[0].nodeValue;
+							// get current saturday lights end time 1 inputs
+							document.getElementById("satLightsET1").innerHTML = this.responseXML.getElementsByTagName("SaturdayLightsEndTime1")[0].childNodes[0].nodeValue;
+							// get current saturday lights start time 2 inputs
+							document.getElementById("satLightsST2").innerHTML = this.responseXML.getElementsByTagName("SaturdayLightsStartTime2")[0].childNodes[0].nodeValue;
+							// get current saturday lights end time 2 inputs
+							document.getElementById("satLightsET2").innerHTML = this.responseXML.getElementsByTagName("SaturdayLightsEndTime2")[0].childNodes[0].nodeValue;
+							
+							// get current sunday lights start time 1 inputs
+							document.getElementById("sunLightsST1").innerHTML = this.responseXML.getElementsByTagName("SundayLightsStartTime1")[0].childNodes[0].nodeValue;
+							// get current sunday lights end time 1 inputs
+							document.getElementById("sunLightsET1").innerHTML = this.responseXML.getElementsByTagName("SundayLightsEndTime1")[0].childNodes[0].nodeValue;
+							// get current sunday lights start time 2 inputs
+							document.getElementById("sunLightsST2").innerHTML = this.responseXML.getElementsByTagName("SundayLightsStartTime2")[0].childNodes[0].nodeValue;
+							// get current sunday lights end time 2 inputs
+							document.getElementById("sunLightsET2").innerHTML = this.responseXML.getElementsByTagName("SundayLightsEndTime2")[0].childNodes[0].nodeValue;
 						}
 					}
 				}
@@ -28,7 +98,7 @@
 			// send HTTP GET request
 			request.open("GET", "ajax_inputs"+nocache, true);
 			request.send(null);
-			setTimeout('GetArduinoIO()', 1000);
+			setTimeout('GetArduinoIO()', 10000);
 		}
 	</script>
 	<style>
@@ -199,11 +269,82 @@
       	<div class="form-signin state">
       		<h2 class="form-signin-heading">Current time</h2>
       		<p class="time" id="currentTime"></p>
+			
+			<h2 class="form-signin-heading">Current date</h2>
+      		<p class="time" id="currentDate"></p>
+			
+			<h2 class="form-signin-heading">Current day</h2>
+      		<p class="time" id="currentDay"></p>
       	</div>
 		
 		<div class="form-signin state">
       		<h2 class="form-signin-heading">Current tank temperature</h2>
       		<p class="time" id="tankTemp"></p>
+      	</div>
+		
+		<div class="form-signin state">
+      		<h2 class="form-signin-heading">Current Monday Lights start time 1</h2>
+      		<p class="time" id="monLightsST1"></p>
+      		<h2 class="form-signin-heading">Current Monday Lights end time 1</h2>
+      		<p class="time" id="monLightsET1"></p>
+			<h2 class="form-signin-heading">Current Monday Lights start time 2</h2>
+      		<p class="time" id="monLightsST2"></p>
+      		<h2 class="form-signin-heading">Current Monday Lights end time 2</h2>
+      		<p class="time" id="monLightsET2"></p>
+			
+			<h2 class="form-signin-heading">Current Tuesday Lights start time 1</h2>
+      		<p class="time" id="tueLightsST1"></p>
+      		<h2 class="form-signin-heading">Current Tuesday Lights end time 1</h2>
+      		<p class="time" id="tueLightsET1"></p>
+			<h2 class="form-signin-heading">Current Tuesday Lights start time 2</h2>
+      		<p class="time" id="tueLightsST2"></p>
+      		<h2 class="form-signin-heading">Current Tuesday Lights end time 2</h2>
+      		<p class="time" id="tueLightsET2"></p>
+			
+			<h2 class="form-signin-heading">Current Wednesday Lights start time 1</h2>
+      		<p class="time" id="wedLightsST1"></p>
+      		<h2 class="form-signin-heading">Current Wednesday Lights end time 1</h2>
+      		<p class="time" id="wedLightsET1"></p>
+			<h2 class="form-signin-heading">Current Wednesday Lights start time 2</h2>
+      		<p class="time" id="wedLightsST2"></p>
+      		<h2 class="form-signin-heading">Current Wednesday Lights end time 2</h2>
+      		<p class="time" id="wedLightsET2"></p>
+			
+			<h2 class="form-signin-heading">Current Thursday Lights start time 1</h2>
+      		<p class="time" id="thurLightsST1"></p>
+      		<h2 class="form-signin-heading">Current Thursday Lights end time 1</h2>
+      		<p class="time" id="thurLightsET1"></p>
+			<h2 class="form-signin-heading">Current Thursday Lights start time 2</h2>
+      		<p class="time" id="thurLightsST2"></p>
+      		<h2 class="form-signin-heading">Current Thursday Lights end time 2</h2>
+      		<p class="time" id="thurLightsET2"></p>
+			
+			<h2 class="form-signin-heading">Current Friday Lights start time 1</h2>
+      		<p class="time" id="friLightsST1"></p>
+      		<h2 class="form-signin-heading">Current Friday Lights end time 1</h2>
+      		<p class="time" id="friLightsET1"></p>
+			<h2 class="form-signin-heading">Current Friday Lights start time 2</h2>
+      		<p class="time" id="friLightsST2"></p>
+      		<h2 class="form-signin-heading">Current Friday Lights end time 2</h2>
+      		<p class="time" id="friLightsET2"></p>
+			
+			<h2 class="form-signin-heading">Current Saturday Lights start time 1</h2>
+      		<p class="time" id="satLightsST1"></p>
+      		<h2 class="form-signin-heading">Current Saturday Lights end time 1</h2>
+      		<p class="time" id="satLightsET1"></p>
+			<h2 class="form-signin-heading">Current Saturday Lights start time 2</h2>
+      		<p class="time" id="satLightsST2"></p>
+      		<h2 class="form-signin-heading">Current Saturday Lights end time 2</h2>
+      		<p class="time" id="satLightsET2"></p>
+			
+			<h2 class="form-signin-heading">Current Sunday Lights start time 1</h2>
+      		<p class="time" id="sunLightsST1"></p>
+      		<h2 class="form-signin-heading">Current Sunday Lights end time 1</h2>
+      		<p class="time" id="sunLightsET1"></p>
+			<h2 class="form-signin-heading">Current Sunday Lights start time 2</h2>
+      		<p class="time" id="sunLightsST2"></p>
+      		<h2 class="form-signin-heading">Current Sunday Lights end time 2</h2>
+      		<p class="time" id="sunLightsET2"></p>
       	</div>
       	
       	<!-- <div class="form-signin state">

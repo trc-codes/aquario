@@ -82,6 +82,17 @@ DeviceAddress insideThermometer, outsideThermometer;
 // Init a Time-data structure
 Time  t;
 
+// default lightSchedule
+String lightSchedule[7][5] {
+  {"Monday", "06:00", "10:00", "16:00", "22:00"},
+  {"Tuesday", "06:00", "10:00", "16:00", "22:00"},
+  {"Wednesday", "06:00", "10:00", "16:00", "22:00"},
+  {"Thursday", "06:00", "10:00", "16:00", "22:00"},
+  {"Friday", "06:00", "10:00", "16:00", "22:00"},
+  {"Saturday", "08:00", "10:00", "16:00", "22:00"},
+  {"Sunday", "08:00", "10:00", "16:00", "22:00"},
+};
+
 // set water temp
 float temp = 30;
 
@@ -165,6 +176,8 @@ void setup() {
 void loop() {
 //  checkTemp(insideThermometer);
   serveWebpage();
+  checkSchedule();
+  delay(1000);
 }
 
 void checkTemp(DeviceAddress deviceAddress) {
@@ -254,18 +267,31 @@ void serveWebpage() {
                         }
                         if (StrContains(HTTP_req, "&mst1")) {
                           // match state object
-                          MatchState ms;
-                          char buf [100];
-                          ms.Target (HTTP_req);  // set its address
-                          char result = ms.Match ("&mst1=(%d+:%d+)&met1=(%d+:%d+)&mst2=(%d+:%d+)&met2=(%d+:%d+)&tst1=(%d+:%d+)&tet1=(%d+:%d+)&tst2=(%d+:%d+)&tet2=(%d+:%d+)&wst1=(%d+:%d+)&wet1=(%d+:%d+)&wst2=(%d+:%d+)&wet2=(%d+:%d+)&thst1=(%d+:%d+)&thet1=(%d+:%d+)&thst2=(%d+:%d+)&thet2=(%d+:%d+)&fst1=(%d+:%d+)&fet1=(%d+:%d+)&fst2=(%d+:%d+)&fet2=(%d+:%d+)&sst1=(%d+:%d+)&set1=(%d+:%d+)&sst2=(%d+:%d+)&set2=(%d+:%d+)&sust1=(%d+:%d+)&suet1=(%d+:%d+)&sust2=(%d+:%d+)&suet2=(%d+:%d+)", 0);
-                          int monStartTime1 = atoi(ms.GetCapture (buf, 0)); int monEndTime1 = atoi(ms.GetCapture (buf, 1)); int monStartTime2 = atoi(ms.GetCapture (buf, 2)); int monEndTime2 = atoi(ms.GetCapture (buf, 3)); 
-                          int tueStartTime1 = atoi(ms.GetCapture (buf, 4)); int tueEndTime1 = atoi(ms.GetCapture (buf, 5)); int tueStartTime2 = atoi(ms.GetCapture (buf, 6)); int tueEndTime2 = atoi(ms.GetCapture (buf, 7));
-                          int wedStartTime1 = atoi(ms.GetCapture (buf, 8)); int wedEndTime1 = atoi(ms.GetCapture (buf, 9)); int wedStartTime2 = atoi(ms.GetCapture (buf, 10)); int wedEndTime2 = atoi(ms.GetCapture (buf, 11));
-                          int thurStartTime1 = atoi(ms.GetCapture (buf, 12)); int thurEndTime1 = atoi(ms.GetCapture (buf, 13)); int thurStartTime2 = atoi(ms.GetCapture (buf, 14)); int thurEndTime2 = atoi(ms.GetCapture (buf, 15));
-                          int friStartTime1 = atoi(ms.GetCapture (buf, 16)); int friEndTime1 = atoi(ms.GetCapture (buf, 17)); int friStartTime2 = atoi(ms.GetCapture (buf, 18)); int friEndTime2 = atoi(ms.GetCapture (buf, 19));
-                          int satStartTime1 = atoi(ms.GetCapture (buf, 20)); int satEndTime1 = atoi(ms.GetCapture (buf, 21)); int satStartTime2 = atoi(ms.GetCapture (buf, 22)); int satEndTime2 = atoi(ms.GetCapture (buf, 23));
-                          int sunStartTime1 = atoi(ms.GetCapture (buf, 24)); int sunEndTime1 = atoi(ms.GetCapture (buf, 25)); int sunStartTime2 = atoi(ms.GetCapture (buf, 26)); int sunEndTime2 = atoi(ms.GetCapture (buf, 27));
-                          
+                          matchAndUpdateLightSchedule("Monday", "&mst1=(%d+:%d+)&met1=(%d+:%d+)&mst2=(%d+:%d+)&met2=(%d+:%d+)", HTTP_req);
+                        }
+                        if (StrContains(HTTP_req, "&tst1")) {
+                          // match state object
+                          matchAndUpdateLightSchedule("Tuesday", "&tst1=(%d+:%d+)&tet1=(%d+:%d+)&tst2=(%d+:%d+)&tet2=(%d+:%d+)", HTTP_req);                       
+                        }
+                        if (StrContains(HTTP_req, "&wst1")) {
+                          // match state object
+                          matchAndUpdateLightSchedule("Wednesday", "&wst1=(%d+:%d+)&wet1=(%d+:%d+)&wst2=(%d+:%d+)&wet2=(%d+:%d+)", HTTP_req);                         
+                        }
+                        if (StrContains(HTTP_req, "&thst1")) {
+                          // match state object
+                          matchAndUpdateLightSchedule("Thursday", "&thst1=(%d+:%d+)&thet1=(%d+:%d+)&thst2=(%d+:%d+)&thet2=(%d+:%d+)", HTTP_req);                       
+                        }
+                        if (StrContains(HTTP_req, "&fst1")) {
+                          // match state object
+                          matchAndUpdateLightSchedule("Friday", "&fst1=(%d+:%d+)&fet1=(%d+:%d+)&fst2=(%d+:%d+)&fet2=(%d+:%d+)", HTTP_req);                      
+                        }
+                        if (StrContains(HTTP_req, "&sst1")) {
+                          // match state object
+                          matchAndUpdateLightSchedule("Saturday", "&sst1=(%d+:%d+)&set1=(%d+:%d+)&sst2=(%d+:%d+)&set2=(%d+:%d+)", HTTP_req);                       
+                        }
+                        if (StrContains(HTTP_req, "&sust1")) {
+                          // match state object
+                          matchAndUpdateLightSchedule("Sunday", "&sust1=(%d+:%d+)&suet1=(%d+:%d+)&sust2=(%d+:%d+)&suet2=(%d+:%d+)", HTTP_req);                         
                         }
                         // send XML file containing input states
                         XML_response(client);
@@ -332,6 +358,96 @@ void XML_response(EthernetClient cl ) {
   cl.print("<currentTime>");
   cl.print(rtc.getTimeStr());
   cl.print("</currentTime>");
+  cl.print("<currentDate>");
+  cl.print(rtc.getDateStr());
+  cl.print("</currentDate>");
+  cl.print("<currentDay>");
+  cl.print(rtc.getDOWStr());
+  cl.print("</currentDay>");
+  cl.print("<MondayLightsStartTime1>");
+  cl.print(lightSchedule[0][1]);
+  cl.print("</MondayLightsStartTime1>");
+  cl.print("<MondayLightsEndTime1>");
+  cl.print(lightSchedule[0][2]);
+  cl.print("</MondayLightsEndTime1>");
+  cl.print("<MondayLightsStartTime2>");
+  cl.print(lightSchedule[0][3]);
+  cl.print("</MondayLightsStartTime2>");
+  cl.print("<MondayLightsEndTime2>");
+  cl.print(lightSchedule[0][4]);
+  cl.print("</MondayLightsEndTime2>");
+  cl.print("<TuesdayLightsStartTime1>");
+  cl.print(lightSchedule[1][1]);
+  cl.print("</TuesdayLightsStartTime1>");
+  cl.print("<TuesdayLightsEndTime1>");
+  cl.print(lightSchedule[1][2]);
+  cl.print("</TuesdayLightsEndTime1>");
+  cl.print("<TuesdayLightsStartTime2>");
+  cl.print(lightSchedule[1][3]);
+  cl.print("</TuesdayLightsStartTime2>");
+  cl.print("<TuesdayLightsEndTime2>");
+  cl.print(lightSchedule[1][4]);
+  cl.print("</TuesdayLightsEndTime2>");
+  cl.print("<WednesdayLightsStartTime1>");
+  cl.print(lightSchedule[2][1]);
+  cl.print("</WednesdayLightsStartTime1>");
+  cl.print("<WednesdayLightsEndTime1>");
+  cl.print(lightSchedule[2][2]);
+  cl.print("</WednesdayLightsEndTime1>");
+  cl.print("<WednesdayLightsStartTime2>");
+  cl.print(lightSchedule[2][3]);
+  cl.print("</WednesdayLightsStartTime2>");
+  cl.print("<WednesdayLightsEndTime2>");
+  cl.print(lightSchedule[2][4]);
+  cl.print("</WednesdayLightsEndTime2>");
+  cl.print("<ThursdayLightsStartTime1>");
+  cl.print(lightSchedule[3][1]);
+  cl.print("</ThursdayLightsStartTime1>");
+  cl.print("<ThursdayLightsEndTime1>");
+  cl.print(lightSchedule[3][2]);
+  cl.print("</ThursdayLightsEndTime1>");
+  cl.print("<ThursdayLightsStartTime2>");
+  cl.print(lightSchedule[3][3]);
+  cl.print("</ThursdayLightsStartTime2>");
+  cl.print("<ThursdayLightsEndTime2>");
+  cl.print(lightSchedule[3][4]);
+  cl.print("</ThursdayLightsEndTime2>");
+  cl.print("<FridayLightsStartTime1>");
+  cl.print(lightSchedule[4][1]);
+  cl.print("</FridayLightsStartTime1>");
+  cl.print("<FridayLightsEndTime1>");
+  cl.print(lightSchedule[4][2]);
+  cl.print("</FridayLightsEndTime1>");
+  cl.print("<FridayLightsStartTime2>");
+  cl.print(lightSchedule[4][3]);
+  cl.print("</FridayLightsStartTime2>");
+  cl.print("<FridayLightsEndTime2>");
+  cl.print(lightSchedule[4][4]);
+  cl.print("</FridayLightsEndTime2>");
+  cl.print("<SaturdayLightsStartTime1>");
+  cl.print(lightSchedule[5][1]);
+  cl.print("</SaturdayLightsStartTime1>");
+  cl.print("<SaturdayLightsEndTime1>");
+  cl.print(lightSchedule[5][2]);
+  cl.print("</SaturdayLightsEndTime1>");
+  cl.print("<SaturdayLightsStartTime2>");
+  cl.print(lightSchedule[5][3]);
+  cl.print("</SaturdayLightsStartTime2>");
+  cl.print("<SaturdayLightsEndTime2>");
+  cl.print(lightSchedule[5][4]);
+  cl.print("</SaturdayLightsEndTime2>");
+  cl.print("<SundayLightsStartTime1>");
+  cl.print(lightSchedule[6][1]);
+  cl.print("</SundayLightsStartTime1>");
+  cl.print("<SundayLightsEndTime1>");
+  cl.print(lightSchedule[6][2]);
+  cl.print("</SundayLightsEndTime1>");
+  cl.print("<SundayLightsStartTime2>");
+  cl.print(lightSchedule[6][3]);
+  cl.print("</SundayLightsStartTime2>");
+  cl.print("<SundayLightsEndTime2>");
+  cl.print(lightSchedule[6][4]);
+  cl.print("</SundayLightsEndTime2>");
   cl.print("</inputs>");
 }
 
@@ -367,4 +483,67 @@ char StrContains(char *str, char *sfind) {
         index++;
     }
     return 0;
+}
+
+void matchAndUpdateLightSchedule(String DOW, char* matcher, char* HTTP_req) {
+  // match state object
+  MatchState ms;
+  char buf [100];
+  ms.Target (HTTP_req);  // set its address
+  char result = ms.Match (matcher, 0);
+  String startTime1 = ms.GetCapture (buf, 0);
+  String endTime1 = ms.GetCapture (buf, 1);
+  String startTime2 = ms.GetCapture (buf, 2);
+  String endTime2 = ms.GetCapture (buf, 3);
+  updateLightSchedule(DOW, startTime1, endTime1, startTime2, endTime2);   
+}
+
+void updateLightSchedule(String day, String startTime1, String endTime1, String startTime2, String endTime2) {
+  int index = getDayIndex(day);
+  Serial.println("-------------");
+  Serial.println("Updating Schedule for ");
+  Serial.print(day);
+  lightSchedule[index][1] = startTime1;
+  lightSchedule[index][2] = endTime1;
+  lightSchedule[index][3] = startTime2;
+  lightSchedule[index][4] = endTime2;
+  Serial.println("-------------");
+}
+
+void checkSchedule() {
+  String currentTime = rtc.getTimeStr(FORMAT_SHORT);
+  String DOW = rtc.getDOWStr();
+  Serial.println("--- Current Time is: " + currentTime);
+  int DOWIndex = getDayIndex(DOW);
+  String startTime1 = lightSchedule[DOWIndex][1];
+  String endTime1 = lightSchedule[DOWIndex][2];
+  String startTime2 = lightSchedule[DOWIndex][3];
+  String endTime2 = lightSchedule[DOWIndex][4];
+  if (startTime1 == currentTime || startTime2 == currentTime) {
+    digitalWrite(relay_4, LOW);
+  } else if (endTime1 == currentTime || endTime2 == currentTime) {
+    digitalWrite(relay_4, HIGH);
+  }
+}
+
+int getDayIndex(String day) {
+  int index = 0;
+  if (day == "Monday") {
+    index = 0;
+  } else if (day == "Tuesday") {
+    index = 1;
+  } else if (day == "Wednesday") {
+    index = 2;
+  } else if (day == "Thursday") {
+    index = 3;
+  } else if (day == "Friday") {
+    index = 4;
+  } else if (day == "Saturday") {
+    index = 5;
+  } else if (day == "Sunday") {
+    index = 6;
+  } else {
+    index = 0; // default if can't find day
+  }
+  return index;
 }
