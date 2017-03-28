@@ -355,8 +355,19 @@ void serveWebpage() {
                         client.println("Content-Type: text/html");
                         client.println("Connection: keep-alive");
                         client.println();
-                        if (StrContains(HTTP_req, "GET /settings.htm")) {
-                          webFile = SD.open("settings.htm");
+
+                        if (StrContains(HTTP_req, "GET /lights.htm")) {
+                          webFile = SD.open("lights.htm");
+                          if (webFile) {
+                              while(webFile.available()) {
+                                client.write(webFile.read()); // send web page to client
+                              }
+                              webFile.close();
+                          }
+                        }
+
+                        else if (StrContains(HTTP_req, "GET /co2.htm")) {
+                          webFile = SD.open("co2.htm");
                           if (webFile) {
                               while(webFile.available()) {
                                 client.write(webFile.read()); // send web page to client
@@ -513,78 +524,6 @@ void XML_response(EthernetClient cl ) {
   cl.print("<MondayCo2EndTime2>");
   cl.print(co2Schedule[0][4]);
   cl.print("</MondayCo2EndTime2>");
-  cl.print("<TuesdayCo2StartTime1>");
-  cl.print(co2Schedule[1][1]);
-  cl.print("</TuesdayCo2StartTime1>");
-  cl.print("<TuesdayCo2EndTime1>");
-  cl.print(co2Schedule[1][2]);
-  cl.print("</TuesdayCo2EndTime1>");
-  cl.print("<TuesdayCo2StartTime2>");
-  cl.print(co2Schedule[1][3]);
-  cl.print("</TuesdayCo2StartTime2>");
-  cl.print("<TuesdayCo2sEndTime2>");
-  cl.print(co2Schedule[1][4]);
-  cl.print("</TuesdayCo2EndTime2>");
-  cl.print("<WednesdayCo2StartTime1>");
-  cl.print(co2Schedule[2][1]);
-  cl.print("</WednesdayCo2StartTime1>");
-  cl.print("<WednesdayCo2EndTime1>");
-  cl.print(co2Schedule[2][2]);
-  cl.print("</WednesdayCo2EndTime1>");
-  cl.print("<WednesdayCo2StartTime2>");
-  cl.print(co2Schedule[2][3]);
-  cl.print("</WednesdayCo2StartTime2>");
-  cl.print("<WednesdayCo2EndTime2>");
-  cl.print(co2Schedule[2][4]);
-  cl.print("</WednesdayCo2EndTime2>");
-  cl.print("<ThursdayCo2StartTime1>");
-  cl.print(co2Schedule[3][1]);
-  cl.print("</ThursdayCo2StartTime1>");
-  cl.print("<ThursdayCo2EndTime1>");
-  cl.print(co2Schedule[3][2]);
-  cl.print("</ThursdayCo2EndTime1>");
-  cl.print("<ThursdayCo2StartTime2>");
-  cl.print(co2Schedule[3][3]);
-  cl.print("</ThursdayCo2StartTime2>");
-  cl.print("<ThursdayCo2EndTime2>");
-  cl.print(co2Schedule[3][4]);
-  cl.print("</ThursdayCo2EndTime2>");
-  cl.print("<FridayCo2StartTime1>");
-  cl.print(co2Schedule[4][1]);
-  cl.print("</FridayCo2StartTime1>");
-  cl.print("<FridayCo2EndTime1>");
-  cl.print(co2Schedule[4][2]);
-  cl.print("</FridayCo2EndTime1>");
-  cl.print("<FridayCo2StartTime2>");
-  cl.print(co2Schedule[4][3]);
-  cl.print("</FridayCo2StartTime2>");
-  cl.print("<FridayCo2EndTime2>");
-  cl.print(co2Schedule[4][4]);
-  cl.print("</FridayCo2EndTime2>");
-  cl.print("<SaturdayCo2StartTime1>");
-  cl.print(co2Schedule[5][1]);
-  cl.print("</SaturdayCo2StartTime1>");
-  cl.print("<SaturdayCo2EndTime1>");
-  cl.print(co2Schedule[5][2]);
-  cl.print("</SaturdayCo2EndTime1>");
-  cl.print("<SaturdayCo2StartTime2>");
-  cl.print(co2Schedule[5][3]);
-  cl.print("</SaturdayCo2StartTime2>");
-  cl.print("<SaturdayCo2EndTime2>");
-  cl.print(co2Schedule[5][4]);
-  cl.print("</SaturdayCo2EndTime2>");
-  cl.print("<SundayCo2StartTime1>");
-  cl.print(lightSchedule[6][1]);
-  cl.print("</SundayCo2StartTime1>");
-  cl.print("<SundayCo2EndTime1>");
-  cl.print(co2Schedule[6][2]);
-  cl.print("</SundayCo2EndTime1>");
-  cl.print("<SundayCo2StartTime2>");
-  cl.print(co2Schedule[6][3]);
-  cl.print("</SundayCo2StartTime2>");
-  cl.print("<SundayCo2EndTime2>");
-  cl.print(co2Schedule[6][4]);
-  cl.print("</SundayCo2EndTime2>");
   cl.print("</inputs>");
 }
 
@@ -657,8 +596,10 @@ void checkSchedule(String schedule[7][5], int relay) {
   String startTime2 = schedule[DOWIndex][3];
   String endTime2 = schedule[DOWIndex][4];
   if (startTime1 == currentTime || startTime2 == currentTime) {
+    Serial.println("--- Turning light on!!");
     digitalWrite(relay, LOW);
   } else if (endTime1 == currentTime || endTime2 == currentTime) {
+    Serial.println("--- Turning light off!!");
     digitalWrite(relay, HIGH);
   }
 }
