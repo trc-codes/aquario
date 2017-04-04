@@ -296,27 +296,27 @@ void serveWebpage() {
                         }
                         if (StrContains(HTTP_req, "&tst1")) {
                           // match state object
-                          matchAndUpdateSchedule(lightSchedule, "Tuesday", "&tst1=(%d+:%d+)&tet1=(%d+:%d+)&tst2=(%d+:%d+)&tet2=(%d+:%d+)", HTTP_req);                       
+                          matchAndUpdateSchedule(lightSchedule, "Tuesday", "&tst1=(%d+:%d+)&tet1=(%d+:%d+)&tst2=(%d+:%d+)&tet2=(%d+:%d+)", HTTP_req);                     
                         }
                         if (StrContains(HTTP_req, "&wst1")) {
                           // match state object
-                          matchAndUpdateSchedule(lightSchedule, "Wednesday", "&wst1=(%d+:%d+)&wet1=(%d+:%d+)&wst2=(%d+:%d+)&wet2=(%d+:%d+)", HTTP_req);                         
+                          matchAndUpdateSchedule(lightSchedule, "Wednesday", "&wst1=(%d+:%d+)&wet1=(%d+:%d+)&wst2=(%d+:%d+)&wet2=(%d+:%d+)", HTTP_req);                       
                         }
                         if (StrContains(HTTP_req, "&thst1")) {
                           // match state object
-                          matchAndUpdateSchedule(lightSchedule, "Thursday", "&thst1=(%d+:%d+)&thet1=(%d+:%d+)&thst2=(%d+:%d+)&thet2=(%d+:%d+)", HTTP_req);                       
+                          matchAndUpdateSchedule(lightSchedule, "Thursday", "&thst1=(%d+:%d+)&thet1=(%d+:%d+)&thst2=(%d+:%d+)&thet2=(%d+:%d+)", HTTP_req);                      
                         }
                         if (StrContains(HTTP_req, "&fst1")) {
                           // match state object
-                          matchAndUpdateSchedule(lightSchedule, "Friday", "&fst1=(%d+:%d+)&fet1=(%d+:%d+)&fst2=(%d+:%d+)&fet2=(%d+:%d+)", HTTP_req);                      
+                          matchAndUpdateSchedule(lightSchedule, "Friday", "&fst1=(%d+:%d+)&fet1=(%d+:%d+)&fst2=(%d+:%d+)&fet2=(%d+:%d+)", HTTP_req);                  
                         }
                         if (StrContains(HTTP_req, "&sst1")) {
                           // match state object
-                          matchAndUpdateSchedule(lightSchedule, "Saturday", "&sst1=(%d+:%d+)&set1=(%d+:%d+)&sst2=(%d+:%d+)&set2=(%d+:%d+)", HTTP_req);                       
+                          matchAndUpdateSchedule(lightSchedule, "Saturday", "&sst1=(%d+:%d+)&set1=(%d+:%d+)&sst2=(%d+:%d+)&set2=(%d+:%d+)", HTTP_req);                     
                         }
                         if (StrContains(HTTP_req, "&sust1")) {
                           // match state object
-                          matchAndUpdateSchedule(lightSchedule, "Sunday", "&sust1=(%d+:%d+)&suet1=(%d+:%d+)&sust2=(%d+:%d+)&suet2=(%d+:%d+)", HTTP_req);                         
+                          matchAndUpdateSchedule(lightSchedule, "Sunday", "&sust1=(%d+:%d+)&suet1=(%d+:%d+)&sust2=(%d+:%d+)&suet2=(%d+:%d+)", HTTP_req);                        
                         }
                         if (StrContains(HTTP_req, "&co2mst1")) {
                           // match state object
@@ -324,30 +324,31 @@ void serveWebpage() {
                         }
                         if (StrContains(HTTP_req, "&co2tst1")) {
                           // match state object
-                          matchAndUpdateSchedule(co2Schedule, "Tuesday", "&co2tst1=(%d+:%d+)&co2tet1=(%d+:%d+)&co2tst2=(%d+:%d+)&co2tet2=(%d+:%d+)", HTTP_req);                       
+                          matchAndUpdateSchedule(co2Schedule, "Tuesday", "&co2tst1=(%d+:%d+)&co2tet1=(%d+:%d+)&co2tst2=(%d+:%d+)&co2tet2=(%d+:%d+)", HTTP_req);                   
                         }
                         if (StrContains(HTTP_req, "&co2wst1")) {
                           // match state object
-                          matchAndUpdateSchedule(co2Schedule, "Wednesday", "&co2wst1=(%d+:%d+)&co2wet1=(%d+:%d+)&co2wst2=(%d+:%d+)&co2wet2=(%d+:%d+)", HTTP_req);                         
+                          matchAndUpdateSchedule(co2Schedule, "Wednesday", "&co2wst1=(%d+:%d+)&co2wet1=(%d+:%d+)&co2wst2=(%d+:%d+)&co2wet2=(%d+:%d+)", HTTP_req);                        
                         }
                         if (StrContains(HTTP_req, "&thst1")) {
                           // match state object
-                          matchAndUpdateSchedule(co2Schedule, "Thursday", "&co2thst1=(%d+:%d+)&co2thet1=(%d+:%d+)&co2thst2=(%d+:%d+)&co2thet2=(%d+:%d+)", HTTP_req);                       
+                          matchAndUpdateSchedule(co2Schedule, "Thursday", "&co2thst1=(%d+:%d+)&co2thet1=(%d+:%d+)&co2thst2=(%d+:%d+)&co2thet2=(%d+:%d+)", HTTP_req);                    
                         }
                         if (StrContains(HTTP_req, "&co2fst1")) {
                           // match state object
-                          matchAndUpdateSchedule(co2Schedule, "Friday", "&co2fst1=(%d+:%d+)&co2fet1=(%d+:%d+)&co2fst2=(%d+:%d+)&co2fet2=(%d+:%d+)", HTTP_req);                      
+                          matchAndUpdateSchedule(co2Schedule, "Friday", "&co2fst1=(%d+:%d+)&co2fet1=(%d+:%d+)&co2fst2=(%d+:%d+)&co2fet2=(%d+:%d+)", HTTP_req);                   
                         }
                         if (StrContains(HTTP_req, "&co2sst1")) {
                           // match state object
-                          matchAndUpdateSchedule(co2Schedule, "Saturday", "&co2sst1=(%d+:%d+)&co2set1=(%d+:%d+)&co2sst2=(%d+:%d+)&co2set2=(%d+:%d+)", HTTP_req);                       
+                          matchAndUpdateSchedule(co2Schedule, "Saturday", "&co2sst1=(%d+:%d+)&co2set1=(%d+:%d+)&co2sst2=(%d+:%d+)&co2set2=(%d+:%d+)", HTTP_req);                    
                         }
                         if (StrContains(HTTP_req, "&co2sust1")) {
                           // match state object
-                          matchAndUpdateSchedule(co2Schedule, "Sunday", "&co2sust1=(%d+:%d+)&co2suet1=(%d+:%d+)&co2sust2=(%d+:%d+)&co2suet2=(%d+:%d+)", HTTP_req);                         
+                          matchAndUpdateSchedule(co2Schedule, "Sunday", "&co2sust1=(%d+:%d+)&co2suet1=(%d+:%d+)&co2sust2=(%d+:%d+)&co2suet2=(%d+:%d+)", HTTP_req);                        
                         }
-                        // send XML file containing input states
-                        XML_response(client);
+                        XML_response_AquarioData(client);
+                        XML_response_LightsSchedules(client); 
+                        XML_response_Co2Schedules(client);  
                     } 
                     
                     else {  // web page request
@@ -412,7 +413,7 @@ void serveWebpage() {
     } // end if (client)
 }
 
-void XML_response(EthernetClient cl ) {
+void XML_response_AquarioData(EthernetClient cl) {
   sensors.requestTemperatures();    
   cl.print("<?xml version = \"1.0\" ?>");
   cl.print("<inputs>");
@@ -428,6 +429,9 @@ void XML_response(EthernetClient cl ) {
   cl.print("<currentDay>");
   cl.print(rtc.getDOWStr());
   cl.print("</currentDay>");
+}
+
+void XML_response_LightsSchedules(EthernetClient cl) {
   cl.print("<MondayLightsStartTime1>");
   cl.print(lightSchedule[0][1]);
   cl.print("</MondayLightsStartTime1>");
@@ -512,6 +516,9 @@ void XML_response(EthernetClient cl ) {
   cl.print("<SundayLightsEndTime2>");
   cl.print(lightSchedule[6][4]);
   cl.print("</SundayLightsEndTime2>");
+}
+
+void XML_response_Co2Schedules(EthernetClient cl) {
   cl.print("<MondayCo2StartTime1>");
   cl.print(co2Schedule[0][1]);
   cl.print("</MondayCo2StartTime1>");
@@ -524,6 +531,78 @@ void XML_response(EthernetClient cl ) {
   cl.print("<MondayCo2EndTime2>");
   cl.print(co2Schedule[0][4]);
   cl.print("</MondayCo2EndTime2>");
+  cl.print("<TuesdayCo2StartTime1>");
+  cl.print(co2Schedule[1][1]);
+  cl.print("</TuesdayCo2StartTime1>");
+  cl.print("<TuesdayCo2EndTime1>");
+  cl.print(co2Schedule[1][2]);
+  cl.print("</TuesdayCo2EndTime1>");
+  cl.print("<TuesdayCo2StartTime2>");
+  cl.print(co2Schedule[1][3]);
+  cl.print("</TuesdayCo2StartTime2>");
+  cl.print("<TuesdayCo2EndTime2>");
+  cl.print(co2Schedule[1][4]);
+  cl.print("</TuesdayCo2EndTime2>");
+  cl.print("<WednesdayCo2StartTime1>");
+  cl.print(co2Schedule[2][1]);
+  cl.print("</WednesdayCo2StartTime1>");
+  cl.print("<WednesdayCo2EndTime1>");
+  cl.print(co2Schedule[2][2]);
+  cl.print("</WednesdayCo2EndTime1>");
+  cl.print("<WednesdayCo2StartTime2>");
+  cl.print(co2Schedule[2][3]);
+  cl.print("</WednesdayCo2StartTime2>");
+  cl.print("<WednesdayCo2EndTime2>");
+  cl.print(co2Schedule[2][4]);
+  cl.print("</WednesdayCo2EndTime2>");
+  cl.print("<ThursdayCo2StartTime1>");
+  cl.print(co2Schedule[3][1]);
+  cl.print("</ThursdayCo2StartTime1>");
+  cl.print("<ThursdayCo2EndTime1>");
+  cl.print(co2Schedule[3][2]);
+  cl.print("</ThursdayCo2EndTime1>");
+  cl.print("<ThursdayCo2StartTime2>");
+  cl.print(co2Schedule[3][3]);
+  cl.print("</ThursdayCo2StartTime2>");
+  cl.print("<ThursdayCo2EndTime2>");
+  cl.print(co2Schedule[3][4]);
+  cl.print("</ThursdayCo2EndTime2>");
+  cl.print("<FridayCo2StartTime1>");
+  cl.print(co2Schedule[4][1]);
+  cl.print("</FridayCo2StartTime1>");
+  cl.print("<FridayCo2EndTime1>");
+  cl.print(co2Schedule[4][2]);
+  cl.print("</FridayCo2EndTime1>");
+  cl.print("<FridayCo2StartTime2>");
+  cl.print(co2Schedule[4][3]);
+  cl.print("</FridayCo2StartTime2>");
+  cl.print("<FridayCo2EndTime2>");
+  cl.print(co2Schedule[4][4]);
+  cl.print("</FridayCo2EndTime2>");
+  cl.print("<SaturdayCo2StartTime1>");
+  cl.print(co2Schedule[5][1]);
+  cl.print("</SaturdayCo2StartTime1>");
+  cl.print("<SaturdayCo2EndTime1>");
+  cl.print(co2Schedule[5][2]);
+  cl.print("</SaturdayCo2EndTime1>");
+  cl.print("<SaturdayCo2StartTime2>");
+  cl.print(co2Schedule[5][3]);
+  cl.print("</SaturdayCo2StartTime2>");
+  cl.print("<SaturdayCo2EndTime2>");
+  cl.print(co2Schedule[5][4]);
+  cl.print("</SaturdayCo2EndTime2>");
+  cl.print("<SundayCo2StartTime1>");
+  cl.print(co2Schedule[6][1]);
+  cl.print("</SundayCo2StartTime1>");
+  cl.print("<SundayCo2EndTime1>");
+  cl.print(co2Schedule[6][2]);
+  cl.print("</SundayCo2EndTime1>");
+  cl.print("<SundayCo2StartTime2>");
+  cl.print(co2Schedule[6][3]);
+  cl.print("</SundayCo2StartTime2>");
+  cl.print("<SundayCo2EndTime2>");
+  cl.print(co2Schedule[6][4]);
+  cl.print("</SundayCo2EndTime2>");
   cl.print("</inputs>");
 }
 

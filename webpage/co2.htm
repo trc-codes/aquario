@@ -84,7 +84,6 @@
 			// send HTTP GET request
 			request.open("GET", "ajax_inputs"+nocache, true);
 			request.send(null);
-			setTimeout('GetArduinoIO()', 15000);
 		}
 		// set Co2 Schedules
 		function SetMonCo2Schedule() {
@@ -98,6 +97,7 @@
 			// send HTTP GET request
 			request.open("GET", "ajax_inputs" + strMST1 + strMET1 + strMST2 + strMET2 + nocache, true);
 			request.send();
+			GetArduinoIO();
 		}
 		function SetTueCo2Schedule() {
 			strTST1 = "&co2tst1="+document.getElementById("inputTueCo2StartTime1").value;
@@ -110,6 +110,7 @@
 			// send HTTP GET request
 			request.open("GET", "ajax_inputs" + strTST1 + strTET1 + strTST2 + strTET2 + nocache, true);
 			request.send();
+			GetArduinoIO();
 		}
 		function SetWedCo2Schedule() {
 			strWST1 = "&co2wst1="+document.getElementById("inputWedCo2StartTime1").value;
@@ -122,6 +123,7 @@
 			// send HTTP GET request
 			request.open("GET", "ajax_inputs" + strWST1 + strWET1 + strWST2 + strWET2 + nocache, true);
 			request.send();
+			GetArduinoIO();
 		}
 		function SetThurCo2Schedule() {
 			strThST1 = "&co2thst1="+document.getElementById("inputThurCo2StartTime1").value;
@@ -134,6 +136,7 @@
 			// send HTTP GET request
 			request.open("GET", "ajax_inputs" + strThST1 + strThET1 + strThST2 + strThET2 + nocache, true);
 			request.send();
+			GetArduinoIO();
 		}
 		function SetFriCo2Schedule() {
 			strFST1 = "&co2fst1="+document.getElementById("inputFriCo2StartTime1").value;
@@ -146,6 +149,7 @@
 			// send HTTP GET request
 			request.open("GET", "ajax_inputs" + strFST1 + strFET1 + strFST2 + strFET2 + nocache, true);
 			request.send();
+			GetArduinoIO();
 		}
 		function SetSatCo2Schedule() {
 			strSST1 = "&co2sst1="+document.getElementById("inputSatCo2StartTime1").value;
@@ -158,6 +162,7 @@
 			// send HTTP GET request
 			request.open("GET", "ajax_inputs" + strSST1 + strSET1 + strSST2 + strSET2 + nocache, true);
 			request.send();
+			GetArduinoIO();
 		}
 		function SetSunCo2Schedule() {
 			strSuST1 = "&co2sust1="+document.getElementById("inputSunCo2StartTime1").value;
@@ -170,6 +175,7 @@
 			// send HTTP GET request
 			request.open("GET", "ajax_inputs" + strSuST1 + strSuET1 + strSuST2 + strSuET2 + nocache, true);
 			request.send();
+			GetArduinoIO();
 		}
 	</script>
 	<style>
@@ -350,91 +356,91 @@
       		<h2 class="form-signin-heading">Set Co2 schedule</h2>
 			<p>Monday:</p>
         	<label for="inputMonCo2StartTime1" class="sr-only">Start time 1</label>
-        	<input type="text" id="inputMonCo2StartTime1" class="form-control form-control-sml" placeholder="Start time 1 in HH:MM" required>
+        	<input type="text" id="inputMonCo2StartTime1" class="form-control form-control-sml" value="" required>
         	<label for="inputMonCo2EndTime1" class="sr-only">End time 1</label>
-			<input type="text" id="inputMonCo2EndTime1" class="form-control form-control-sml" placeholder="End time 1 in HH:MM" required>
+			<input type="text" id="inputMonCo2EndTime1" class="form-control form-control-sml" value="" required>
 			<label for="inputMonCo2StartTime2" class="sr-only">Start time 2</label>
-        	<input type="text" id="inputMonCo2StartTime2" class="form-control form-control-sml" placeholder="Start time 2 in HH:MM" required>
+        	<input type="text" id="inputMonCo2StartTime2" class="form-control form-control-sml" value="" required>
         	<label for="inputMonCo2EndTime2" class="sr-only">End time 2</label>
-        	<input type="text" id="inputMonCo2EndTime2" class="form-control form-control-sml" placeholder="End time 2 in HH:MM" required>
+        	<input type="text" id="inputMonCo2EndTime2" class="form-control form-control-sml" value="" required>
 			<div class="centre">
 				<input type="button" class="btn btn-lg btn-primary" id="setMonCo2Schedule" value="Set Monday Co2 Schedule" onclick="SetMonCo2Schedule()">
 			</div>
 			
 			<p>Tuesday:</p>
         	<label for="inputTueCo2StartTime1" class="sr-only">Start time 1</label>
-        	<input type="text" id="inputTueCo2StartTime1" class="form-control form-control-sml" placeholder="Start time 1 in HH:MM" required>
+        	<input type="text" id="inputTueCo2StartTime1" class="form-control form-control-sml" value="" required>
         	<label for="inputTueCo2EndTime1" class="sr-only">End time 1</label>
-			<input type="text" id="inputTueCo2EndTime1" class="form-control form-control-sml" placeholder="End time 1 in HH:MM" required>
+			<input type="text" id="inputTueCo2EndTime1" class="form-control form-control-sml" value="" required>
 			<label for="inputTueCo2StartTime2" class="sr-only">Start time 2</label>
-        	<input type="text" id="inputTueCo2StartTime2" class="form-control form-control-sml" placeholder="Start time 2 in HH:MM" required>
+        	<input type="text" id="inputTueCo2StartTime2" class="form-control form-control-sml" value="" required>
         	<label for="inputTueCo2EndTime2" class="sr-only">End time 2</label>
-        	<input type="text" id="inputTueCo2EndTime2" class="form-control form-control-sml" placeholder="End time 2 in HH:MM" required>
+        	<input type="text" id="inputTueCo2EndTime2" class="form-control form-control-sml" value="" required>
 			<div class="centre">
 				<input type="button" class="btn btn-lg btn-primary" id="setTueCo2Schedule" value="Set Tuesday Co2 Schedule" onclick="SetTueCo2Schedule()">
 			</div>
 			
 			<p>Wednesday:</p>
         	<label for="inputWedCo2StartTime1" class="sr-only">Start time 1</label>
-        	<input type="text" id="inputWedCo2StartTime1" class="form-control form-control-sml" placeholder="Start time 1 in HH:MM" required>
+        	<input type="text" id="inputWedCo2StartTime1" class="form-control form-control-sml" value="" required>
         	<label for="inputWedCo2EndTime1" class="sr-only">End time 1</label>
-			<input type="text" id="inputWedCo2EndTime1" class="form-control form-control-sml" placeholder="End time 1 in HH:MM" required>
+			<input type="text" id="inputWedCo2EndTime1" class="form-control form-control-sml" value="" required>
 			<label for="inputWedCo2StartTime2" class="sr-only">Start time 2</label>
-        	<input type="text" id="inputWedCo2StartTime2" class="form-control form-control-sml" placeholder="Start time 2 in HH:MM" required>
+        	<input type="text" id="inputWedCo2StartTime2" class="form-control form-control-sml" value="" required>
         	<label for="inputWedCo2EndTime2" class="sr-only">End time 2</label>
-        	<input type="text" id="inputWedCo2EndTime2" class="form-control form-control-sml" placeholder="End time 2 in HH:MM" required>
+        	<input type="text" id="inputWedCo2EndTime2" class="form-control form-control-sml" value="" required>
 			<div class="centre">
 				<input type="button" class="btn btn-lg btn-primary" id="setWedCo2Schedule" value="Set Wednesday Co2 Schedule" onclick="SetWedCo2Schedule()">
 			</div>
 			
 			<p>Thursday:</p>
         	<label for="inputThurCo2StartTime1" class="sr-only">Start time 1</label>
-        	<input type="text" id="inputThurCo2StartTime1" class="form-control form-control-sml" placeholder="Start time 1 in HH:MM" required>
+        	<input type="text" id="inputThurCo2StartTime1" class="form-control form-control-sml" value="" required>
         	<label for="inputThurCo2EndTime1" class="sr-only">End time 1</label>
-			<input type="text" id="inputThurCo2EndTime1" class="form-control form-control-sml" placeholder="End time 1 in HH:MM" required>
+			<input type="text" id="inputThurCo2EndTime1" class="form-control form-control-sml" value="" required>
 			<label for="inputThurCo2StartTime2" class="sr-only">Start time 2</label>
-        	<input type="text" id="inputThurCo2StartTime2" class="form-control form-control-sml" placeholder="Start time 2 in HH:MM" required>
+        	<input type="text" id="inputThurCo2StartTime2" class="form-control form-control-sml" value="" required>
         	<label for="inputThurCo2EndTime2" class="sr-only">End time 2</label>
-        	<input type="text" id="inputThurCo2EndTime2" class="form-control form-control-sml" placeholder="End time 2 in HH:MM" required>
+        	<input type="text" id="inputThurCo2EndTime2" class="form-control form-control-sml" value="" required>
 			<div class="centre">
 				<input type="button" class="btn btn-lg btn-primary" id="setThurCo2Schedule" value="Set Thursday Co2 Schedule" onclick="SetThurCo2Schedule()">
 			</div>
 			
 			<p>Friday:</p>
         	<label for="inputFriCo2StartTime1" class="sr-only">Start time 1</label>
-        	<input type="text" id="inputFriCo2StartTime1" class="form-control form-control-sml" placeholder="Start time 1 in HH:MM" required>
+        	<input type="text" id="inputFriCo2StartTime1" class="form-control form-control-sml" value="" required>
         	<label for="inputFriCo2EndTime1" class="sr-only">End time 1</label>
-			<input type="text" id="inputFriCo2EndTime1" class="form-control form-control-sml" placeholder="End time 1 in HH:MM" required>
+			<input type="text" id="inputFriCo2EndTime1" class="form-control form-control-sml" value="" required>
 			<label for="inputFriCo2StartTime2" class="sr-only">Start time 2</label>
-        	<input type="text" id="inputFriCo2StartTime2" class="form-control form-control-sml" placeholder="Start time 2 in HH:MM" required>
+        	<input type="text" id="inputFriCo2StartTime2" class="form-control form-control-sml" value="" required>
         	<label for="inputFriCo2EndTime2" class="sr-only">End time 2</label>
-        	<input type="text" id="inputFriCo2EndTime2" class="form-control form-control-sml" placeholder="End time 2 in HH:MM" required>
+        	<input type="text" id="inputFriCo2EndTime2" class="form-control form-control-sml" value="" required>
 			<div class="centre">
 				<input type="button" class="btn btn-lg btn-primary" id="setFriCo2Schedule" value="Set Friday Co2 Schedule" onclick="SetFriCo2Schedule()">
 			</div>
 			
 			<p>Saturday:</p>
         	<label for="inputSatCo2StartTime1" class="sr-only">Start time 1</label>
-        	<input type="text" id="inputSatCo2StartTime1" class="form-control form-control-sml" placeholder="Start time 1 in HH:MM" required>
+        	<input type="text" id="inputSatCo2StartTime1" class="form-control form-control-sml" value="" required>
         	<label for="inputSatCo2EndTime1" class="sr-only">End time 1</label>
-			<input type="text" id="inputSatCo2EndTime1" class="form-control form-control-sml" placeholder="End time 1 in HH:MM" required>
+			<input type="text" id="inputSatCo2EndTime1" class="form-control form-control-sml" value="" required>
 			<label for="inputSatLightsCo2Time2" class="sr-only">Start time 2</label>
-        	<input type="text" id="inputSatCo2StartTime2" class="form-control form-control-sml" placeholder="Start time 2 in HH:MM" required>
+        	<input type="text" id="inputSatCo2StartTime2" class="form-control form-control-sml" value="" required>
         	<label for="inputSatLightsEndTime2" class="sr-only">End time 2</label>
-        	<input type="text" id="inputSatCo2EndTime2" class="form-control form-control-sml" placeholder="End time 2 in HH:MM" required>
+        	<input type="text" id="inputSatCo2EndTime2" class="form-control form-control-sml" value="" required>
 			<div class="centre">
 				<input type="button" class="btn btn-lg btn-primary" id="setSatCo2Schedule" value="Set Saturday Co2 Schedule" onclick="SetSatCo2Schedule()">
 			</div>
 			
 			<p>Sunday:</p>
         	<label for="inputSunCo2StartTime1" class="sr-only">Start time 1</label>
-        	<input type="text" id="inputSunCo2StartTime1" class="form-control form-control-sml" placeholder="Start time 1 in HH:MM" required>
+        	<input type="text" id="inputSunCo2StartTime1" class="form-control form-control-sml" value="" required>
         	<label for="inputSunCo2EndTime1" class="sr-only">End time 1</label>
-			<input type="text" id="inputSunCo2EndTime1" class="form-control form-control-sml" placeholder="End time 1 in HH:MM" required>
+			<input type="text" id="inputSunCo2EndTime1" class="form-control form-control-sml" value="" required>
 			<label for="inputSunCo2StartTime2" class="sr-only">Start time 2</label>
-        	<input type="text" id="inputSunCo2StartTime2" class="form-control form-control-sml" placeholder="Start time 2 in HH:MM" required>
+        	<input type="text" id="inputSunCo2StartTime2" class="form-control form-control-sml" value="" required>
         	<label for="inputSunCo2EndTime2" class="sr-only">End time 2</label>
-        	<input type="text" id="inputSunCo2EndTime2" class="form-control form-control-sml" placeholder="End time 2 in HH:MM" required>
+        	<input type="text" id="inputSunCo2EndTime2" class="form-control form-control-sml" value="" required>
         	<div class="clear"></div>
 			<div class="centre">
 				<input type="button" class="btn btn-lg btn-primary" id="setSunCo2Schedule" value="Set Sunday Co2 Schedule" onclick="SetSunCo2Schedule()">

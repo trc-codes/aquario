@@ -84,7 +84,6 @@
 			// send HTTP GET request
 			request.open("GET", "ajax_inputs"+nocache, true);
 			request.send(null);
-			setTimeout('GetArduinoIO()', 15000);
 		}
 		// set Lights Schedules
 		function SetMonLightSchedule() {
@@ -98,6 +97,7 @@
 			// send HTTP GET request
 			request.open("GET", "ajax_inputs" + strMST1 + strMET1 + strMST2 + strMET2 + nocache, true);
 			request.send();
+			GetArduinoIO();
 		}
 		function SetTueLightSchedule() {
 			strTST1 = "&tst1="+document.getElementById("inputTueLightsStartTime1").value;
@@ -110,6 +110,7 @@
 			// send HTTP GET request
 			request.open("GET", "ajax_inputs" + strTST1 + strTET1 + strTST2 + strTET2 + nocache, true);
 			request.send();
+			GetArduinoIO();
 		}
 		function SetWedLightSchedule() {
 			strWST1 = "&wst1="+document.getElementById("inputWedLightsStartTime1").value;
@@ -122,6 +123,7 @@
 			// send HTTP GET request
 			request.open("GET", "ajax_inputs" + strWST1 + strWET1 + strWST2 + strWET2 + nocache, true);
 			request.send();
+			GetArduinoIO();
 		}
 		function SetThurLightSchedule() {
 			strThST1 = "&thst1="+document.getElementById("inputThurLightsStartTime1").value;
@@ -134,6 +136,7 @@
 			// send HTTP GET request
 			request.open("GET", "ajax_inputs" + strThST1 + strThET1 + strThST2 + strThET2 + nocache, true);
 			request.send();
+			GetArduinoIO();
 		}
 		function SetFriLightSchedule() {
 			strFST1 = "&fst1="+document.getElementById("inputFriLightsStartTime1").value;
@@ -146,6 +149,7 @@
 			// send HTTP GET request
 			request.open("GET", "ajax_inputs" + strFST1 + strFET1 + strFST2 + strFET2 + nocache, true);
 			request.send();
+			GetArduinoIO();
 		}
 		function SetSatLightSchedule() {
 			strSST1 = "&sst1="+document.getElementById("inputSatLightsStartTime1").value;
@@ -158,6 +162,7 @@
 			// send HTTP GET request
 			request.open("GET", "ajax_inputs" + strSST1 + strSET1 + strSST2 + strSET2 + nocache, true);
 			request.send();
+			GetArduinoIO();
 		}
 		function SetSunLightSchedule() {
 			strSuST1 = "&sust1="+document.getElementById("inputSunLightsStartTime1").value;
@@ -170,6 +175,7 @@
 			// send HTTP GET request
 			request.open("GET", "ajax_inputs" + strSuST1 + strSuET1 + strSuST2 + strSuET2 + nocache, true);
 			request.send();
+			GetArduinoIO();
 		}
 	</script>
 	<style>
