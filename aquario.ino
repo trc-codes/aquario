@@ -88,18 +88,6 @@ float temp = 30;
 float upperTempVariance = 2;
 float lowerTempVariance = 5;
 
-void setSetTemp(float temp) {
-  temp = temp;
-}
-
-void setUpperTempVariance(float upperTempVariance) {
-  upperTempVariance = upperTempVariance;
-}
-
-void setLowerTempVariance(float lowerTempVariance) {
-  lowerTempVariance = lowerTempVariance;
-}
-
 // default lightSchedule
 String lightSchedule[7][5] {
   {"Monday", "06:00", "10:00", "16:00", "22:00"},
@@ -549,8 +537,8 @@ void matchAndUpdateAquarioData(String dataToUpdate, char* matcher, char* HTTP_re
     rtc.setDOW();
   }
   else if (dataToUpdate == "tankTemps") {
-    setSetTemp(firstMatch);
-    setUpperTempVariance(secondMatch);
-    setLowerTempVariance(thirdMatch);
+    temp = firstMatch;
+    upperTempVariance = secondMatch;
+    lowerTempVariance = thirdMatch;
   }
 }
