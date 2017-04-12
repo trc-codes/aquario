@@ -32,3 +32,12 @@ For the locally running website you'll need to ensure your Arduino is connected 
 via the ethernet shield but you'll also need to make sure the html pages from the /webpage folder 
 have been copied onto your SD card and the SD card must be put into the SD slot on the Arduino 
 ethernet shield.
+
+# Accessing the locally running website
+
+Once you've got the Aquario code uploaded to your Arduino and all the sensors wired up, you 
+can view the current state and also update values using the locally running website by opening 
+the following URL in your browser - http://192.168.0.177/state.htm
+
+These webpages are only accessible on your local network at present, we may look to make this 
+accessible via the internet at some point.
