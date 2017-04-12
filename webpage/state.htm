@@ -30,7 +30,7 @@
 				}
 			}
 			// send HTTP GET request
-			request.open("GET", "ajax_inputs"+nocache, true);
+			request.open("GET", "aquario_data"+nocache, true);
 			request.send(null);
 			setTimeout('GetArduinoIO()', 10000);
 		}
@@ -216,20 +216,6 @@
       		<h2 class="form-signin-heading">Current tank temperature</h2>
       		<p class="time" id="tankTemp"></p>
       	</div>
-      	
-      	<!-- <div class="form-signin state">
-      		<h2 class="form-signin-heading">Current Lights start time</h2>
-      		<p class="time">08:00:00</p>
-      		<h2 class="form-signin-heading">Current Lights end time</h2>
-      		<p class="time">16:00:00</p>
-      	</div>
-      	
-      	<div class="form-signin state">
-      		<h2 class="form-signin-heading">Current CO2 start time</h2>
-      		<p class="time">10:00:00</p>
-      		<h2 class="form-signin-heading">Current CO2 end time</h2>
-      		<p class="time">15:00:00</p>
-      	</div> -->
     </div> <!-- /container -->
 </body>
 </html>
