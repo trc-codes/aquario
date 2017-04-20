@@ -317,6 +317,11 @@ void serveWebpage() {
                           serveWebFileAndClose(webFile, client);
                         }
 
+                        else if (StrContains(HTTP_req, "GET /settings.htm")) {
+                          webFile = SD.open("settings.htm");
+                          serveWebFileAndClose(webFile, client);
+                        }
+
                         else {
                           webFile = SD.open("state.htm");
                           serveWebFileAndClose(webFile, client);
