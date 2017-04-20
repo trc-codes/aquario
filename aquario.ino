@@ -110,7 +110,9 @@ String co2Schedule[7][5] {
   {"Sunday", "08:00", "10:00", "16:00", "23:00"},
 };
 
-void setup() {  
+void setup() { 
+  // Setup Serial connection
+  Serial.begin(9600); 
   // Pin setup
   pinSetup();
   // Ethernet setup
@@ -119,8 +121,6 @@ void setup() {
   sdCardSetup();
   // temp setup
   tempSensorsSetup();  
-  // Setup Serial connection
-  Serial.begin(9600);
   // Initialize the rtc object
   rtc.begin();
 }
@@ -384,7 +384,7 @@ void XML_response_Schedules(EthernetClient cl, String schedule[7][5]) {
   cl.print("<MondayEndTime1>");
   cl.print(schedule[0][2]);
   cl.print("</MondayEndTime1>");
-  cl.print("<MondayLightsStartTime2>");
+  cl.print("<MondayStartTime2>");
   cl.print(schedule[0][3]);
   cl.print("</MondayStartTime2>");
   cl.print("<MondayEndTime2>");
