@@ -8,30 +8,25 @@
 			strHour = "&hr="+document.getElementById("inputHours").value;
 			strMinute = "&min="+document.getElementById("inputMinutes").value;
 			strSecond = "&sec="+document.getElementById("inputSeconds").value;
-			nocache = "&nocache=" + Math.random() * 1000000;
-			var request = new XMLHttpRequest();
-			// send HTTP GET request
-			request.open("GET", "aquario_data" + strHour + strMinute + strSecond + nocache, true);
-			request.send();
+			SendAjaxRequest(strHour, strMinute, strSecond);
 		}
 		function SetCurrentDate() {
 			strDay = "&day="+document.getElementById("inputDay").value;
 			strMonth = "&mon="+document.getElementById("inputMonth").value;
 			strYear = "&year="+document.getElementById("inputYear").value;
-			nocache = "&nocache=" + Math.random() * 1000000;
-			var request = new XMLHttpRequest();
-			// send HTTP GET request
-			request.open("GET", "aquario_data" + strDay + strMonth + strYear + nocache, true);
-			request.send();
+			SendAjaxRequest(strDay, strMonth, strYear);
 		}
 		function SetTankTemps() {
 			strTemp = "&tt="+document.getElementById("inputTankTemp").value;
 			strTempUV = "&tuv="+document.getElementById("inputTankUpperVariance").value;
 			strTempLV = "&tlv="+document.getElementById("inputTankLowerVariance").value;
+			SendAjaxRequest(strTemp, strTempUV, strTempLV);
+		}
+		function SendAjaxRequest(firstParam, secondParam, thirdParam) {
 			nocache = "&nocache=" + Math.random() * 1000000;
 			var request = new XMLHttpRequest();
 			// send HTTP GET request
-			request.open("GET", "aquario_data" + strTemp + strTempUV + strTempLV + nocache, true);
+			request.open("GET", "aquario_data" + firstParam + secondParam + thirdParam + nocache, true);
 			request.send();
 		}
 	</script>
@@ -47,8 +42,6 @@
 		html {
 			font-family: Verdana, Geneva, sans-serif;
 			line-height: 1.15;
-			-ms-text-size-adjust: 100%;
-			-webkit-text-size-adjust: 100%;
 		}
 		body {
 			padding-bottom: 40px;
@@ -90,15 +83,9 @@
 			color: #464a4c;
 			background-color: #fff;
 			background-image: none;
-			-webkit-background-clip: padding-box;
 			background-clip: padding-box;
 			border: 1px solid rgba(0, 0, 0, 0.15);
 			border-radius: 0.25rem;
-			-webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
-			transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
-			-o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-			transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-			transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
 		}
 		.form-control-lg {
 			width: 100%;
@@ -125,17 +112,10 @@
 			text-align: center;
 			white-space: nowrap;
 			vertical-align: middle;
-			-webkit-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-			user-select: none;
 			border: 1px solid transparent;
 			padding: 0.5rem 1rem;
 			font-size: 1rem;
 			border-radius: 0.25rem;
-			-webkit-transition: all 0.2s ease-in-out;
-			-o-transition: all 0.2s ease-in-out;
-			transition: all 0.2s ease-in-out;
 		}
 		.btn-lg, .btn-group-lg > .btn {
 			padding: 0.75rem 1.5rem;
@@ -193,7 +173,7 @@
 		.centre {
 			text-align: center;
 			margin-top: 20px;
-		}		
+		}
 	</style>
   </head>
 
@@ -229,7 +209,7 @@
 		<form class="form-signin state">
         	<h2 class="form-signin-heading">Set the current date</h2>
         	<label for="inputDay" class="sr-only">Day</label>
-        	<input type="text" id="inputDay" class="form-control" placeholder="DD" required autofocus>
+        	<input type="text" id="inputDay" class="form-control" placeholder="DD" required>
         	<span class="setTime">/</span>
         	<label for="inputMonth" class="sr-only">Month</label>
         	<input type="text" id="inputMonth" class="form-control" placeholder="MM" required>

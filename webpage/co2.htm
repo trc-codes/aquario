@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <title>Co2 Schedule | Aquario settings</title>
 	<script>
-		function GetArduinoIO()
-		{
+		function GetArduinoIO() {
 			nocache = "&nocache=" + Math.random() * 1000000;
 			var request = new XMLHttpRequest();
 			request.onreadystatechange = function() {
@@ -91,89 +90,55 @@
 			strMET1 = "&co2met1="+document.getElementById("inputMonCo2EndTime1").value;
 			strMST2 = "&co2mst2="+document.getElementById("inputMonCo2StartTime2").value;
 			strMET2 = "&co2met2="+document.getElementById("inputMonCo2EndTime2").value;
-			nocache = "&nocache=" + Math.random() * 1000000;
-			
-			var request = new XMLHttpRequest();
-			// send HTTP GET request
-			request.open("GET", "co2_schedules" + strMST1 + strMET1 + strMST2 + strMET2 + nocache, true);
-			request.send();
-			GetArduinoIO();
+			SendAjaxRequest(strMST1, strMET1, strMST2, strMET2);
 		}
 		function SetTueCo2Schedule() {
 			strTST1 = "&co2tst1="+document.getElementById("inputTueCo2StartTime1").value;
 			strTET1 = "&co2tet1="+document.getElementById("inputTueCo2EndTime1").value;
 			strTST2 = "&co2tst2="+document.getElementById("inputTueCo2StartTime2").value;
 			strTET2 = "&co2tet2="+document.getElementById("inputTueCo2EndTime2").value;
-			nocache = "&nocache=" + Math.random() * 1000000;
-			
-			var request = new XMLHttpRequest();
-			// send HTTP GET request
-			request.open("GET", "co2_schedules" + strTST1 + strTET1 + strTST2 + strTET2 + nocache, true);
-			request.send();
-			GetArduinoIO();
+			SendAjaxRequest(strTST1, strTET1, strTST2, strTET2);
 		}
 		function SetWedCo2Schedule() {
 			strWST1 = "&co2wst1="+document.getElementById("inputWedCo2StartTime1").value;
 			strWET1 = "&co2wet1="+document.getElementById("inputWedCo2EndTime1").value;
 			strWST2 = "&co2wst2="+document.getElementById("inputWedCo2StartTime2").value;
 			strWET2 = "&co2wet2="+document.getElementById("inputWedCo2EndTime2").value;
-			nocache = "&nocache=" + Math.random() * 1000000;
-			
-			var request = new XMLHttpRequest();
-			// send HTTP GET request
-			request.open("GET", "co2_schedules" + strWST1 + strWET1 + strWST2 + strWET2 + nocache, true);
-			request.send();
-			GetArduinoIO();
+			SendAjaxRequest(strWST1, strWET1, strWST2, strWET2);
 		}
 		function SetThurCo2Schedule() {
 			strThST1 = "&co2thst1="+document.getElementById("inputThurCo2StartTime1").value;
 			strThET1 = "&co2thet1="+document.getElementById("inputThurCo2EndTime1").value;
 			strThST2 = "&co2thst2="+document.getElementById("inputThurCo2StartTime2").value;
 			strThET2 = "&co2thet2="+document.getElementById("inputThurCo2EndTime2").value;
-			nocache = "&nocache=" + Math.random() * 1000000;
-			
-			var request = new XMLHttpRequest();
-			// send HTTP GET request
-			request.open("GET", "co2_schedules" + strThST1 + strThET1 + strThST2 + strThET2 + nocache, true);
-			request.send();
-			GetArduinoIO();
+			SendAjaxRequest(strThST1, strThET1, strThST2, strThET2);
 		}
 		function SetFriCo2Schedule() {
 			strFST1 = "&co2fst1="+document.getElementById("inputFriCo2StartTime1").value;
 			strFET1 = "&co2fet1="+document.getElementById("inputFriCo2EndTime1").value;
 			strFST2 = "&co2fst2="+document.getElementById("inputFriCo2StartTime2").value;
 			strFET2 = "&co2fet2="+document.getElementById("inputFriCo2EndTime2").value;
-			nocache = "&nocache=" + Math.random() * 1000000;
-			
-			var request = new XMLHttpRequest();
-			// send HTTP GET request
-			request.open("GET", "co2_schedules" + strFST1 + strFET1 + strFST2 + strFET2 + nocache, true);
-			request.send();
-			GetArduinoIO();
+			SendAjaxRequest(strFST1, strFET1, strFST2, strFET2);
 		}
 		function SetSatCo2Schedule() {
 			strSST1 = "&co2sst1="+document.getElementById("inputSatCo2StartTime1").value;
 			strSET1 = "&co2set1="+document.getElementById("inputSatCo2EndTime1").value;
 			strSST2 = "&co2sst2="+document.getElementById("inputSatCo2StartTime2").value;
 			strSET2 = "&co2set2="+document.getElementById("inputSatCo2EndTime2").value;
-			nocache = "&nocache=" + Math.random() * 1000000;
-			
-			var request = new XMLHttpRequest();
-			// send HTTP GET request
-			request.open("GET", "co2_schedules" + strSST1 + strSET1 + strSST2 + strSET2 + nocache, true);
-			request.send();
-			GetArduinoIO();
+			SendAjaxRequest(strSST1, strSET1, strSST2, strSET2);
 		}
 		function SetSunCo2Schedule() {
 			strSuST1 = "&co2sust1="+document.getElementById("inputSunCo2StartTime1").value;
 			strSuET1 = "&co2suet1="+document.getElementById("inputSunCo2EndTime1").value;
 			strSuST2 = "&co2sust2="+document.getElementById("inputSunCo2StartTime2").value;
 			strSuET2 = "&co2suet2="+document.getElementById("inputSunCo2EndTime2").value;
+			SendAjaxRequest(strSuST1, strSuET1, strSuST2, strSuET2);
+		}
+		function SendAjaxRequest(startTime1, endTime1, startTime2, endTime2) {
 			nocache = "&nocache=" + Math.random() * 1000000;
-			
 			var request = new XMLHttpRequest();
 			// send HTTP GET request
-			request.open("GET", "co2_schedules" + strSuST1 + strSuET1 + strSuST2 + strSuET2 + nocache, true);
+			request.open("GET", "co2_schedules" + startTime1 + endTime1 + startTime2 + endTime2 + nocache, true);
 			request.send();
 			GetArduinoIO();
 		}
@@ -190,8 +155,6 @@
 		html {
 			font-family: Verdana, Geneva, sans-serif;
 			line-height: 1.15;
-			-ms-text-size-adjust: 100%;
-			-webkit-text-size-adjust: 100%;
 		}
 		body {
 			padding-bottom: 40px;
@@ -233,15 +196,9 @@
 			color: #464a4c;
 			background-color: #fff;
 			background-image: none;
-			-webkit-background-clip: padding-box;
 			background-clip: padding-box;
 			border: 1px solid rgba(0, 0, 0, 0.15);
 			border-radius: 0.25rem;
-			-webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
-			transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
-			-o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-			transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-			transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
 		}
 		.form-control-lg {
 			width: 100%;
@@ -268,17 +225,10 @@
 			text-align: center;
 			white-space: nowrap;
 			vertical-align: middle;
-			-webkit-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-			user-select: none;
 			border: 1px solid transparent;
 			padding: 0.5rem 1rem;
 			font-size: 1rem;
 			border-radius: 0.25rem;
-			-webkit-transition: all 0.2s ease-in-out;
-			-o-transition: all 0.2s ease-in-out;
-			transition: all 0.2s ease-in-out;
 		}
 		.btn-lg, .btn-group-lg > .btn {
 			padding: 0.75rem 1.5rem;
@@ -336,7 +286,7 @@
 		.centre {
 			text-align: center;
 			margin-top: 20px;
-		}		
+		}
 	</style>
   </head>
 
