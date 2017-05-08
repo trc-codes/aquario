@@ -1,6 +1,9 @@
-// Aquario
-// DS3231 Library Copyright (C)2015 Rinky-Dink Electronics, Henning Karlsen. All right reserved
-// web: http://www.RinkyDinkElectronics.com/
+//////////////////////////////////////////////////////////
+//                                                      //
+//  Aquario - Open source aquarium management system    //
+//  Authors - John Leighton, Leigh Gibbs & Daniel Nix   //
+//                                                      //
+//////////////////////////////////////////////////////////
 
 // Init libraries
 #include <DallasTemperature.h>
@@ -14,59 +17,6 @@
 // Define OneWire pin
 #define ONE_WIRE_BUS 9
 
-// size of buffer used to capture HTTP requests
-#define REQ_BUF_SZ 100
-
-// Define Relay Digital I/O pin number and names
-#define RELAY_ON LOW
-#define RELAY_OFF HIGH
-#define relay_1  2  // SSR
-String relay_1_name = "Heater";
-#define relay_2  3  // SSR
-String relay_2_name = "Lighting";
-#define relay_3  4  // SSR
-String relay_3_name = "CO2";
-#define relay_4  5  // 
-String relay_4_name = "Pump1";
-#define relay_5  6  // 
-String relay_5_name = "Pump2";
-#define relay_6  7  // 
-String relay_6_name = "Pump3";
-#define relay_7  8  // 
-String relay_7_name = "Pump4";
-
-// Ethernet init
-byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-IPAddress ip(192, 168, 0, 177);
-EthernetServer server(80);
-File webFile; // the web page file on the SD card
-char HTTP_req[REQ_BUF_SZ] = {0}; // buffered HTTP request stored as null terminated string
-char req_index = 0; // index into HTTP_req buffer
-
-void ethernetSetup() {
-  // start the Ethernet connection and the server:
-  Ethernet.begin(mac, ip);
-  server.begin();
-  Serial.print("server is at ");
-  Serial.println(Ethernet.localIP());
-}
-
-void sdCardSetup() {
-  // initialize SD card
-    Serial.println("Initializing SD card...");
-    if (!SD.begin(4)) {
-        Serial.println("ERROR - SD card initialization failed!");
-        return;    // init failed
-    }
-    Serial.println("SUCCESS - SD card initialized.");
-    // check for state.htm file
-    if (!SD.exists("state.htm")) {
-        Serial.println("ERROR - Can't find state.htm file!");
-        return;  // can't find index file
-    }
-    Serial.println("SUCCESS - Found state.htm file.");
-}
-
 // Init the DS3231 using the hardware interface
 DS3231  rtc(SDA, SCL);
 
@@ -79,8 +29,64 @@ DallasTemperature sensors(&oneWire);
 // arrays to hold device addresses
 DeviceAddress insideThermometer, outsideThermometer;
 
-// Init a Time-data structure
-Time  t;
+// Ethernet init
+byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
+IPAddress ip(192, 168, 0, 177);
+EthernetServer server(80);
+
+void ethernetSetup() {
+  // start the Ethernet connection and the server:
+  Ethernet.begin(mac, ip);
+  server.begin();
+  Serial.print("server is at ");
+  Serial.println(Ethernet.localIP());
+}
+
+void sdCardSetup() {
+  // initialize SD card
+  Serial.println("Initializing SD card...");
+  if (!SD.begin(4)) {
+      Serial.println("ERROR - SD card initialization failed!");
+      return;    // init failed
+  }
+  Serial.println("SUCCESS - SD card initialized.");
+  // check for state.htm file
+  if (!SD.exists("state.htm")) {
+      Serial.println("ERROR - Can't find state.htm file!");
+      return;  // can't find index file
+  }
+  Serial.println("SUCCESS - Found state.htm file.");
+}
+
+void tempSensorsSetup() {
+  sensors.begin();
+  if (!sensors.getAddress(insideThermometer, 0)) Serial.println("Unable to find address for Device 0"); 
+  if (!sensors.getAddress(outsideThermometer, 1)) Serial.println("Unable to find address for Device 1");
+}
+
+void pinSetup() {
+  //set digital pins as outputs
+  pinMode(5, OUTPUT);  
+  pinMode(6, OUTPUT);  
+  pinMode(7, OUTPUT);  
+  pinMode(8, OUTPUT);
+  
+  // Initialize Pins so relays are inactive at reset
+  digitalWrite(5, HIGH);
+  digitalWrite(6, HIGH);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, HIGH);  
+      
+  delay(1000); //Check that all relays are inactive at 
+  
+  // disable Ethernet chip
+  pinMode(10, OUTPUT);
+  digitalWrite(10, HIGH);
+}
+
+float temp = 30;
+float upperTempVariance = 2;
+float lowerTempVariance = 5;
 
 // default lightSchedule
 String lightSchedule[7][5] {
@@ -89,8 +95,8 @@ String lightSchedule[7][5] {
   {"Wednesday", "06:00", "10:00", "16:00", "22:00"},
   {"Thursday", "06:00", "10:00", "16:00", "22:00"},
   {"Friday", "06:00", "10:00", "16:00", "22:00"},
-  {"Saturday", "08:00", "10:00", "16:00", "22:00"},
-  {"Sunday", "08:00", "10:00", "16:00", "22:00"},
+  {"Saturday", "08:00", "10:00", "16:00", "23:00"},
+  {"Sunday", "08:00", "10:00", "16:00", "23:00"},
 };
 
 // default co2Schedule
@@ -100,95 +106,29 @@ String co2Schedule[7][5] {
   {"Wednesday", "06:00", "10:00", "16:00", "22:00"},
   {"Thursday", "06:00", "10:00", "16:00", "22:00"},
   {"Friday", "06:00", "10:00", "16:00", "22:00"},
-  {"Saturday", "08:00", "10:00", "16:00", "22:00"},
-  {"Sunday", "08:00", "10:00", "16:00", "22:00"},
+  {"Saturday", "08:00", "10:00", "16:00", "23:00"},
+  {"Sunday", "08:00", "10:00", "16:00", "23:00"},
 };
 
-// set water temp
-float temp = 30;
-
-// set upper water temp variance
-float upperTempVariance = 2;
-
-// set lower water temp variance
-float lowerTempVariance = 5;
-
-void tempSensorsSetup() {
-  // Start up the DallasTemp library
-  sensors.begin();
-
-  if (!sensors.getAddress(insideThermometer, 0)) Serial.println("Unable to find address for Device 0"); 
-  if (!sensors.getAddress(outsideThermometer, 1)) Serial.println("Unable to find address for Device 1");
-}
-
-float getSetTemp() {
-  return temp;
-}
-
-void setSetTemp(float temp) {
-  temp = temp;
-}
-
-float getUpperTempVariance() {
-  return upperTempVariance;
-}
-
-void setUpperTempVariance(float upperTempVariance) {
-  upperTempVariance = upperTempVariance;
-}
-
-float getLowerTempVariance() {
-  return lowerTempVariance;
-}
-
-void setLowerTempVariance(float lowerTempVariance) {
-  lowerTempVariance = lowerTempVariance;
-}
-
-// declare upperTempLimit and lowerTempLimit
-float upperTempLimit = getSetTemp() + getUpperTempVariance();
-float lowerTempLimit = getSetTemp() - getLowerTempVariance();
-
-void setup() {
-  // disable Ethernet chip
-  pinMode(10, OUTPUT);
-  digitalWrite(10, HIGH);
-  
+void setup() { 
   // Setup Serial connection
-  Serial.begin(9600);
-
+  Serial.begin(9600); 
+  // Pin setup
+  pinSetup();
   // Ethernet setup
   ethernetSetup();
-
   // SD card setup
   sdCardSetup();
-
-  // Initialize the rtc object
-  rtc.begin();
-
-  //set digital pins as outputs
-  pinMode(relay_4, OUTPUT);  
-  pinMode(relay_5, OUTPUT);  
-  pinMode(relay_6, OUTPUT);  
-  pinMode(relay_7, OUTPUT);
-  
-  //-------( Initialize Pins so relays are inactive at reset)----
-  digitalWrite(relay_4, RELAY_OFF);
-  digitalWrite(relay_5, RELAY_OFF);
-  digitalWrite(relay_6, RELAY_OFF);
-  digitalWrite(relay_7, RELAY_OFF);  
-      
-  delay(4000); //Check that all relays are inactive at 
-
   // temp setup
   tempSensorsSetup();  
+  // Initialize the rtc object
+  rtc.begin();
 }
 
 void loop() {
-//  checkTemp(insideThermometer);
   serveWebpage();
-  checkSchedule(lightSchedule, relay_4);
-  checkSchedule(co2Schedule, relay_5);
+  checkSchedule(lightSchedule, 5);
+  checkSchedule(co2Schedule, 6);
 //  checkTemp(insideThermometer);
   delay(1000);
 }
@@ -196,19 +136,19 @@ void loop() {
 void checkTemp(DeviceAddress deviceAddress) {
   sensors.requestTemperatures(); // Send the command to get temperatures
   Serial.println(sensors.getTempCByIndex(0));
-  if (sensors.getTempCByIndex(0) >= upperTempLimit) {
+  if (sensors.getTempCByIndex(0) >= temp + upperTempVariance) {
     Serial.print("ALARM!! turning heater off.");
-    turnRelayOff(relay_4, relay_4_name);
-  } else if (sensors.getTempCByIndex(0) <= lowerTempLimit) {
+    turnRelayOff(5, "Heater");
+  } else if (sensors.getTempCByIndex(0) <= temp - lowerTempVariance) {
     Serial.print("ALARM!! turning heater on.");
-    turnRelayOn(relay_4, relay_4_name);
+    turnRelayOn(5, "Heater");
   }
 }
 
 void turnRelayOn(int relay_num, String relay_name) {
+  digitalWrite(relay_num, HIGH);// set the Relay ON
   Serial.print(relay_name + " ON");
   Serial.println("");
-  digitalWrite(relay_num, HIGH);// set the Relay ON
 }
 
 void turnRelayOff(int relay_num, String relay_name) {
@@ -217,18 +157,55 @@ void turnRelayOff(int relay_num, String relay_name) {
   Serial.println("");
 }
 
-Time getCurrentTime() {
-  // Need the internet connection for this - from the Raspberry Pi?
+void checkSchedule(String schedule[7][5], int relay) {
+  String currentTime = rtc.getTimeStr(FORMAT_SHORT);
+  String DOW = rtc.getDOWStr();
+  Serial.println("--- Current Time is: " + currentTime);
+  int DOWIndex = getDayIndex(DOW);
+  String startTime1 = schedule[DOWIndex][1];
+  String endTime1 = schedule[DOWIndex][2];
+  String startTime2 = schedule[DOWIndex][3];
+  String endTime2 = schedule[DOWIndex][4];
+  if (startTime1 == currentTime || startTime2 == currentTime) {
+    digitalWrite(relay, LOW);
+  } else if (endTime1 == currentTime || endTime2 == currentTime) {
+    digitalWrite(relay, HIGH);
+  }
 }
 
-void setCurrentTime(int hours, int minutes, int seconds) {
-  rtc.setTime(hours, minutes, seconds);
+int getDayIndex(String day) {
+  int index = 0;
+  if (day == "Tuesday") {
+    index = 1;
+  } 
+  else if (day == "Wednesday") {
+    index = 2;
+  } 
+  else if (day == "Thursday") {
+    index = 3;
+  } 
+  else if (day == "Friday") {
+    index = 4;
+  } 
+  else if (day == "Saturday") {
+    index = 5;
+  } 
+  else if (day == "Sunday") {
+    index = 6;
+  } 
+  else {
+    index = 0; // default to 0 for Monday
+  }
+  return index;
 }
 
-// Serve webpage
 void serveWebpage() {
+  File webFile; // the web page file on the SD card
+  #define REQ_BUF_SZ 100 // size of buffer used to capture HTTP requests
+  char HTTP_req[REQ_BUF_SZ] = {0}; // buffered HTTP request stored as null terminated string
+  char req_index = 0; // index into HTTP_req buffer
+  
   EthernetClient client = server.available();  // try to get client
-
     if (client) {  // got client?
         boolean currentLineIsBlank = true;
         while (client.connected()) {
@@ -238,7 +215,7 @@ void serveWebpage() {
                 // buffer first part of HTTP request in HTTP_req array (string)
                 // leave last element in array as 0 to null terminate string (REQ_BUF_SZ - 1)
                 if (req_index < (REQ_BUF_SZ - 1)) {
-                    HTTP_req[req_index] = c;          // save HTTP request character
+                    HTTP_req[req_index] = c; // save HTTP request character
                     req_index++;
                 }
                 // last line of client request is blank and ends with \n
@@ -249,106 +226,79 @@ void serveWebpage() {
                       // remainder of header follows below, depending on if
                       // web page or XML page is requested
                       // Ajax request - send XML file
-                      if (StrContains(HTTP_req, "ajax_inputs")) {
+                      if (StrContains(HTTP_req, "aquario_data")) {
                         // send rest of HTTP header
                         client.println("Content-Type: text/xml");
                         client.println("Connection: keep-alive");
                         client.println();
                         if (StrContains(HTTP_req, "&hr")) {
-                          // match state object
-                          MatchState ms;
-                          char buf [100];
-                          ms.Target (HTTP_req);  // set its address
-                          char result = ms.Match ("&hr=(%d+)&min=(%d+)&sec=(%d+)", 0);
-                          int currentHr = atoi(ms.GetCapture (buf, 0));
-                          int currentMin = atoi(ms.GetCapture (buf, 1));
-                          int currentSec = atoi(ms.GetCapture (buf, 2));
-                          setCurrentTime(currentHr, currentMin, currentSec);
+                          matchAndUpdateAquarioData("currentTime", "&hr=(%d+)&min=(%d+)&sec=(%d+)", HTTP_req);
                         }
                         if (StrContains(HTTP_req, "&day")) {
-                          // match state object
-                          MatchState ms;
-                          char buf [100];
-                          ms.Target (HTTP_req);  // set its address
-                          char result = ms.Match ("&day=(%d+)&mon=(%d+)&year=(%d+)", 0);
-                          int currentDay = atoi(ms.GetCapture (buf, 0));
-                          int currentMon = atoi(ms.GetCapture (buf, 1));
-                          int currentYear = atoi(ms.GetCapture (buf, 2));
-                          rtc.setDate(currentDay, currentMon, currentYear);
-                          rtc.setDOW();
+                          matchAndUpdateAquarioData("currentDate", "&day=(%d+)&mon=(%d+)&year=(%d+)", HTTP_req);
                         }
                         if (StrContains(HTTP_req, "&tt")) {
-                          // match state object
-                          MatchState ms;
-                          char buf [100];
-                          ms.Target (HTTP_req);  // set its address
-                          char result = ms.Match ("&tt=(%d+)&tuv=(%d+)&tlv=(%d+)", 0);
-                          int tankTemp = atoi(ms.GetCapture (buf, 0));
-                          int tankTempUpperVar = atoi(ms.GetCapture (buf, 1));
-                          int tankTempLowerVar = atoi(ms.GetCapture (buf, 2));
-                          setSetTemp(tankTemp);
-                          setUpperTempVariance(tankTempUpperVar);
-                          setLowerTempVariance(tankTempLowerVar);
+                          matchAndUpdateAquarioData("tankTemps", "&tt=(%d+)&tuv=(%d+)&tlv=(%d+)", HTTP_req);
                         }
+                        XML_response_AquarioData(client);
+                      }
+                      else if (StrContains(HTTP_req, "lights_schedules")) {
+                        // send rest of HTTP header
+                        client.println("Content-Type: text/xml");
+                        client.println("Connection: keep-alive");
+                        client.println();
+  
                         if (StrContains(HTTP_req, "&mst1")) {
-                          // match state object
                           matchAndUpdateSchedule(lightSchedule, "Monday", "&mst1=(%d+:%d+)&met1=(%d+:%d+)&mst2=(%d+:%d+)&met2=(%d+:%d+)", HTTP_req);
                         }
                         if (StrContains(HTTP_req, "&tst1")) {
-                          // match state object
                           matchAndUpdateSchedule(lightSchedule, "Tuesday", "&tst1=(%d+:%d+)&tet1=(%d+:%d+)&tst2=(%d+:%d+)&tet2=(%d+:%d+)", HTTP_req);                     
                         }
                         if (StrContains(HTTP_req, "&wst1")) {
-                          // match state object
                           matchAndUpdateSchedule(lightSchedule, "Wednesday", "&wst1=(%d+:%d+)&wet1=(%d+:%d+)&wst2=(%d+:%d+)&wet2=(%d+:%d+)", HTTP_req);                       
                         }
                         if (StrContains(HTTP_req, "&thst1")) {
-                          // match state object
                           matchAndUpdateSchedule(lightSchedule, "Thursday", "&thst1=(%d+:%d+)&thet1=(%d+:%d+)&thst2=(%d+:%d+)&thet2=(%d+:%d+)", HTTP_req);                      
                         }
                         if (StrContains(HTTP_req, "&fst1")) {
-                          // match state object
                           matchAndUpdateSchedule(lightSchedule, "Friday", "&fst1=(%d+:%d+)&fet1=(%d+:%d+)&fst2=(%d+:%d+)&fet2=(%d+:%d+)", HTTP_req);                  
                         }
                         if (StrContains(HTTP_req, "&sst1")) {
-                          // match state object
                           matchAndUpdateSchedule(lightSchedule, "Saturday", "&sst1=(%d+:%d+)&set1=(%d+:%d+)&sst2=(%d+:%d+)&set2=(%d+:%d+)", HTTP_req);                     
                         }
                         if (StrContains(HTTP_req, "&sust1")) {
-                          // match state object
                           matchAndUpdateSchedule(lightSchedule, "Sunday", "&sust1=(%d+:%d+)&suet1=(%d+:%d+)&sust2=(%d+:%d+)&suet2=(%d+:%d+)", HTTP_req);                        
                         }
+                        XML_response_Schedules(client, lightSchedule); 
+                      }
+                      else if (StrContains(HTTP_req, "co2_schedules")) {
+                        // send rest of HTTP header
+                        client.println("Content-Type: text/xml");
+                        client.println("Connection: keep-alive");
+                        client.println();
+  
                         if (StrContains(HTTP_req, "&co2mst1")) {
-                          // match state object
                           matchAndUpdateSchedule(co2Schedule, "Monday", "co2&mst1=(%d+:%d+)&co2met1=(%d+:%d+)&co2mst2=(%d+:%d+)&co2met2=(%d+:%d+)", HTTP_req);
                         }
                         if (StrContains(HTTP_req, "&co2tst1")) {
-                          // match state object
                           matchAndUpdateSchedule(co2Schedule, "Tuesday", "&co2tst1=(%d+:%d+)&co2tet1=(%d+:%d+)&co2tst2=(%d+:%d+)&co2tet2=(%d+:%d+)", HTTP_req);                   
                         }
                         if (StrContains(HTTP_req, "&co2wst1")) {
-                          // match state object
                           matchAndUpdateSchedule(co2Schedule, "Wednesday", "&co2wst1=(%d+:%d+)&co2wet1=(%d+:%d+)&co2wst2=(%d+:%d+)&co2wet2=(%d+:%d+)", HTTP_req);                        
                         }
                         if (StrContains(HTTP_req, "&thst1")) {
-                          // match state object
                           matchAndUpdateSchedule(co2Schedule, "Thursday", "&co2thst1=(%d+:%d+)&co2thet1=(%d+:%d+)&co2thst2=(%d+:%d+)&co2thet2=(%d+:%d+)", HTTP_req);                    
                         }
                         if (StrContains(HTTP_req, "&co2fst1")) {
-                          // match state object
                           matchAndUpdateSchedule(co2Schedule, "Friday", "&co2fst1=(%d+:%d+)&co2fet1=(%d+:%d+)&co2fst2=(%d+:%d+)&co2fet2=(%d+:%d+)", HTTP_req);                   
                         }
                         if (StrContains(HTTP_req, "&co2sst1")) {
-                          // match state object
                           matchAndUpdateSchedule(co2Schedule, "Saturday", "&co2sst1=(%d+:%d+)&co2set1=(%d+:%d+)&co2sst2=(%d+:%d+)&co2set2=(%d+:%d+)", HTTP_req);                    
                         }
                         if (StrContains(HTTP_req, "&co2sust1")) {
-                          // match state object
                           matchAndUpdateSchedule(co2Schedule, "Sunday", "&co2sust1=(%d+:%d+)&co2suet1=(%d+:%d+)&co2sust2=(%d+:%d+)&co2suet2=(%d+:%d+)", HTTP_req);                        
                         }
-                        XML_response_AquarioData(client);
-                        XML_response_LightsSchedules(client); 
-                        XML_response_Co2Schedules(client);  
+                        XML_response_Schedules(client, co2Schedule); 
                     } 
                     
                     else {  // web page request
@@ -359,33 +309,22 @@ void serveWebpage() {
 
                         if (StrContains(HTTP_req, "GET /lights.htm")) {
                           webFile = SD.open("lights.htm");
-                          if (webFile) {
-                              while(webFile.available()) {
-                                client.write(webFile.read()); // send web page to client
-                              }
-                              webFile.close();
-                          }
+                          serveWebFileAndClose(webFile, client);
                         }
 
                         else if (StrContains(HTTP_req, "GET /co2.htm")) {
                           webFile = SD.open("co2.htm");
-                          if (webFile) {
-                              while(webFile.available()) {
-                                client.write(webFile.read()); // send web page to client
-                              }
-                              webFile.close();
-                          }
+                          serveWebFileAndClose(webFile, client);
+                        }
+
+                        else if (StrContains(HTTP_req, "GET /settings.htm")) {
+                          webFile = SD.open("settings.htm");
+                          serveWebFileAndClose(webFile, client);
                         }
 
                         else {
-                          // send web page
-                          webFile = SD.open("state.htm");        // open web page file
-                          if (webFile) {
-                              while(webFile.available()) {
-                                client.write(webFile.read()); // send web page to client
-                              }
-                              webFile.close();
-                          }
+                          webFile = SD.open("state.htm");
+                          serveWebFileAndClose(webFile, client);
                         }
                     }
                     // display received HTTP request on serial port
@@ -408,9 +347,18 @@ void serveWebpage() {
                 }
             } // end if (client.available())
         } // end while (client.connected())
-        delay(1000);      // give the web browser time to receive the data
+        delay(1000); // give the web browser time to receive the data
         client.stop(); // close the connection
     } // end if (client)
+}
+
+void serveWebFileAndClose(File webFile, EthernetClient client) {
+  if (webFile) {
+    while(webFile.available()) {
+      client.write(webFile.read()); // send web page to client
+    }
+    webFile.close();
+  }
 }
 
 void XML_response_AquarioData(EthernetClient cl) {
@@ -421,7 +369,7 @@ void XML_response_AquarioData(EthernetClient cl) {
   cl.print(sensors.getTempCByIndex(0));
   cl.print("</tankTemperature>");
   cl.print("<currentTime>");
-  cl.print(rtc.getTimeStr());
+  cl.print(rtc.getTimeStr(FORMAT_SHORT));
   cl.print("</currentTime>");
   cl.print("<currentDate>");
   cl.print(rtc.getDateStr());
@@ -429,215 +377,126 @@ void XML_response_AquarioData(EthernetClient cl) {
   cl.print("<currentDay>");
   cl.print(rtc.getDOWStr());
   cl.print("</currentDay>");
-}
-
-void XML_response_LightsSchedules(EthernetClient cl) {
-  cl.print("<MondayLightsStartTime1>");
-  cl.print(lightSchedule[0][1]);
-  cl.print("</MondayLightsStartTime1>");
-  cl.print("<MondayLightsEndTime1>");
-  cl.print(lightSchedule[0][2]);
-  cl.print("</MondayLightsEndTime1>");
-  cl.print("<MondayLightsStartTime2>");
-  cl.print(lightSchedule[0][3]);
-  cl.print("</MondayLightsStartTime2>");
-  cl.print("<MondayLightsEndTime2>");
-  cl.print(lightSchedule[0][4]);
-  cl.print("</MondayLightsEndTime2>");
-  cl.print("<TuesdayLightsStartTime1>");
-  cl.print(lightSchedule[1][1]);
-  cl.print("</TuesdayLightsStartTime1>");
-  cl.print("<TuesdayLightsEndTime1>");
-  cl.print(lightSchedule[1][2]);
-  cl.print("</TuesdayLightsEndTime1>");
-  cl.print("<TuesdayLightsStartTime2>");
-  cl.print(lightSchedule[1][3]);
-  cl.print("</TuesdayLightsStartTime2>");
-  cl.print("<TuesdayLightsEndTime2>");
-  cl.print(lightSchedule[1][4]);
-  cl.print("</TuesdayLightsEndTime2>");
-  cl.print("<WednesdayLightsStartTime1>");
-  cl.print(lightSchedule[2][1]);
-  cl.print("</WednesdayLightsStartTime1>");
-  cl.print("<WednesdayLightsEndTime1>");
-  cl.print(lightSchedule[2][2]);
-  cl.print("</WednesdayLightsEndTime1>");
-  cl.print("<WednesdayLightsStartTime2>");
-  cl.print(lightSchedule[2][3]);
-  cl.print("</WednesdayLightsStartTime2>");
-  cl.print("<WednesdayLightsEndTime2>");
-  cl.print(lightSchedule[2][4]);
-  cl.print("</WednesdayLightsEndTime2>");
-  cl.print("<ThursdayLightsStartTime1>");
-  cl.print(lightSchedule[3][1]);
-  cl.print("</ThursdayLightsStartTime1>");
-  cl.print("<ThursdayLightsEndTime1>");
-  cl.print(lightSchedule[3][2]);
-  cl.print("</ThursdayLightsEndTime1>");
-  cl.print("<ThursdayLightsStartTime2>");
-  cl.print(lightSchedule[3][3]);
-  cl.print("</ThursdayLightsStartTime2>");
-  cl.print("<ThursdayLightsEndTime2>");
-  cl.print(lightSchedule[3][4]);
-  cl.print("</ThursdayLightsEndTime2>");
-  cl.print("<FridayLightsStartTime1>");
-  cl.print(lightSchedule[4][1]);
-  cl.print("</FridayLightsStartTime1>");
-  cl.print("<FridayLightsEndTime1>");
-  cl.print(lightSchedule[4][2]);
-  cl.print("</FridayLightsEndTime1>");
-  cl.print("<FridayLightsStartTime2>");
-  cl.print(lightSchedule[4][3]);
-  cl.print("</FridayLightsStartTime2>");
-  cl.print("<FridayLightsEndTime2>");
-  cl.print(lightSchedule[4][4]);
-  cl.print("</FridayLightsEndTime2>");
-  cl.print("<SaturdayLightsStartTime1>");
-  cl.print(lightSchedule[5][1]);
-  cl.print("</SaturdayLightsStartTime1>");
-  cl.print("<SaturdayLightsEndTime1>");
-  cl.print(lightSchedule[5][2]);
-  cl.print("</SaturdayLightsEndTime1>");
-  cl.print("<SaturdayLightsStartTime2>");
-  cl.print(lightSchedule[5][3]);
-  cl.print("</SaturdayLightsStartTime2>");
-  cl.print("<SaturdayLightsEndTime2>");
-  cl.print(lightSchedule[5][4]);
-  cl.print("</SaturdayLightsEndTime2>");
-  cl.print("<SundayLightsStartTime1>");
-  cl.print(lightSchedule[6][1]);
-  cl.print("</SundayLightsStartTime1>");
-  cl.print("<SundayLightsEndTime1>");
-  cl.print(lightSchedule[6][2]);
-  cl.print("</SundayLightsEndTime1>");
-  cl.print("<SundayLightsStartTime2>");
-  cl.print(lightSchedule[6][3]);
-  cl.print("</SundayLightsStartTime2>");
-  cl.print("<SundayLightsEndTime2>");
-  cl.print(lightSchedule[6][4]);
-  cl.print("</SundayLightsEndTime2>");
-}
-
-void XML_response_Co2Schedules(EthernetClient cl) {
-  cl.print("<MondayCo2StartTime1>");
-  cl.print(co2Schedule[0][1]);
-  cl.print("</MondayCo2StartTime1>");
-  cl.print("<MondayCo2EndTime1>");
-  cl.print(co2Schedule[0][2]);
-  cl.print("</MondayCo2EndTime1>");
-  cl.print("<MondayCo2StartTime2>");
-  cl.print(co2Schedule[0][3]);
-  cl.print("</MondayCo2StartTime2>");
-  cl.print("<MondayCo2EndTime2>");
-  cl.print(co2Schedule[0][4]);
-  cl.print("</MondayCo2EndTime2>");
-  cl.print("<TuesdayCo2StartTime1>");
-  cl.print(co2Schedule[1][1]);
-  cl.print("</TuesdayCo2StartTime1>");
-  cl.print("<TuesdayCo2EndTime1>");
-  cl.print(co2Schedule[1][2]);
-  cl.print("</TuesdayCo2EndTime1>");
-  cl.print("<TuesdayCo2StartTime2>");
-  cl.print(co2Schedule[1][3]);
-  cl.print("</TuesdayCo2StartTime2>");
-  cl.print("<TuesdayCo2EndTime2>");
-  cl.print(co2Schedule[1][4]);
-  cl.print("</TuesdayCo2EndTime2>");
-  cl.print("<WednesdayCo2StartTime1>");
-  cl.print(co2Schedule[2][1]);
-  cl.print("</WednesdayCo2StartTime1>");
-  cl.print("<WednesdayCo2EndTime1>");
-  cl.print(co2Schedule[2][2]);
-  cl.print("</WednesdayCo2EndTime1>");
-  cl.print("<WednesdayCo2StartTime2>");
-  cl.print(co2Schedule[2][3]);
-  cl.print("</WednesdayCo2StartTime2>");
-  cl.print("<WednesdayCo2EndTime2>");
-  cl.print(co2Schedule[2][4]);
-  cl.print("</WednesdayCo2EndTime2>");
-  cl.print("<ThursdayCo2StartTime1>");
-  cl.print(co2Schedule[3][1]);
-  cl.print("</ThursdayCo2StartTime1>");
-  cl.print("<ThursdayCo2EndTime1>");
-  cl.print(co2Schedule[3][2]);
-  cl.print("</ThursdayCo2EndTime1>");
-  cl.print("<ThursdayCo2StartTime2>");
-  cl.print(co2Schedule[3][3]);
-  cl.print("</ThursdayCo2StartTime2>");
-  cl.print("<ThursdayCo2EndTime2>");
-  cl.print(co2Schedule[3][4]);
-  cl.print("</ThursdayCo2EndTime2>");
-  cl.print("<FridayCo2StartTime1>");
-  cl.print(co2Schedule[4][1]);
-  cl.print("</FridayCo2StartTime1>");
-  cl.print("<FridayCo2EndTime1>");
-  cl.print(co2Schedule[4][2]);
-  cl.print("</FridayCo2EndTime1>");
-  cl.print("<FridayCo2StartTime2>");
-  cl.print(co2Schedule[4][3]);
-  cl.print("</FridayCo2StartTime2>");
-  cl.print("<FridayCo2EndTime2>");
-  cl.print(co2Schedule[4][4]);
-  cl.print("</FridayCo2EndTime2>");
-  cl.print("<SaturdayCo2StartTime1>");
-  cl.print(co2Schedule[5][1]);
-  cl.print("</SaturdayCo2StartTime1>");
-  cl.print("<SaturdayCo2EndTime1>");
-  cl.print(co2Schedule[5][2]);
-  cl.print("</SaturdayCo2EndTime1>");
-  cl.print("<SaturdayCo2StartTime2>");
-  cl.print(co2Schedule[5][3]);
-  cl.print("</SaturdayCo2StartTime2>");
-  cl.print("<SaturdayCo2EndTime2>");
-  cl.print(co2Schedule[5][4]);
-  cl.print("</SaturdayCo2EndTime2>");
-  cl.print("<SundayCo2StartTime1>");
-  cl.print(co2Schedule[6][1]);
-  cl.print("</SundayCo2StartTime1>");
-  cl.print("<SundayCo2EndTime1>");
-  cl.print(co2Schedule[6][2]);
-  cl.print("</SundayCo2EndTime1>");
-  cl.print("<SundayCo2StartTime2>");
-  cl.print(co2Schedule[6][3]);
-  cl.print("</SundayCo2StartTime2>");
-  cl.print("<SundayCo2EndTime2>");
-  cl.print(co2Schedule[6][4]);
-  cl.print("</SundayCo2EndTime2>");
   cl.print("</inputs>");
 }
 
-// sets every element of str to 0 (clears array)
-void StrClear(char *str, char length) {
-    for (int i = 0; i < length; i++) {
-        str[i] = 0;
-    }
+void XML_response_Schedules(EthernetClient cl, String schedule[7][5]) {
+  cl.print("<?xml version = \"1.0\" ?>");
+  cl.print("<inputs>");
+  cl.print("<MondayStartTime1>");
+  cl.print(schedule[0][1]);
+  cl.print("</MondayStartTime1>");
+  cl.print("<MondayEndTime1>");
+  cl.print(schedule[0][2]);
+  cl.print("</MondayEndTime1>");
+  cl.print("<MondayStartTime2>");
+  cl.print(schedule[0][3]);
+  cl.print("</MondayStartTime2>");
+  cl.print("<MondayEndTime2>");
+  cl.print(schedule[0][4]);
+  cl.print("</MondayEndTime2>");
+  cl.print("<TuesdayStartTime1>");
+  cl.print(schedule[1][1]);
+  cl.print("</TuesdayStartTime1>");
+  cl.print("<TuesdayEndTime1>");
+  cl.print(schedule[1][2]);
+  cl.print("</TuesdayEndTime1>");
+  cl.print("<TuesdayStartTime2>");
+  cl.print(schedule[1][3]);
+  cl.print("</TuesdayStartTime2>");
+  cl.print("<TuesdayEndTime2>");
+  cl.print(schedule[1][4]);
+  cl.print("</TuesdayEndTime2>");
+  cl.print("<WednesdayStartTime1>");
+  cl.print(schedule[2][1]);
+  cl.print("</WednesdayStartTime1>");
+  cl.print("<WednesdayEndTime1>");
+  cl.print(schedule[2][2]);
+  cl.print("</WednesdayEndTime1>");
+  cl.print("<WednesdayStartTime2>");
+  cl.print(schedule[2][3]);
+  cl.print("</WednesdayStartTime2>");
+  cl.print("<WednesdayEndTime2>");
+  cl.print(schedule[2][4]);
+  cl.print("</WednesdayEndTime2>");
+  cl.print("<ThursdayStartTime1>");
+  cl.print(schedule[3][1]);
+  cl.print("</ThursdayStartTime1>");
+  cl.print("<ThursdayEndTime1>");
+  cl.print(schedule[3][2]);
+  cl.print("</ThursdayEndTime1>");
+  cl.print("<ThursdayStartTime2>");
+  cl.print(schedule[3][3]);
+  cl.print("</ThursdayStartTime2>");
+  cl.print("<ThursdayEndTime2>");
+  cl.print(schedule[3][4]);
+  cl.print("</ThursdayEndTime2>");
+  cl.print("<FridayStartTime1>");
+  cl.print(schedule[4][1]);
+  cl.print("</FridayStartTime1>");
+  cl.print("<FridayEndTime1>");
+  cl.print(schedule[4][2]);
+  cl.print("</FridayEndTime1>");
+  cl.print("<FridayStartTime2>");
+  cl.print(schedule[4][3]);
+  cl.print("</FridayStartTime2>");
+  cl.print("<FridayEndTime2>");
+  cl.print(schedule[4][4]);
+  cl.print("</FridayEndTime2>");
+  cl.print("<SaturdayStartTime1>");
+  cl.print(schedule[5][1]);
+  cl.print("</SaturdayStartTime1>");
+  cl.print("<SaturdayEndTime1>");
+  cl.print(schedule[5][2]);
+  cl.print("</SaturdayEndTime1>");
+  cl.print("<SaturdayStartTime2>");
+  cl.print(schedule[5][3]);
+  cl.print("</SaturdayStartTime2>");
+  cl.print("<SaturdayEndTime2>");
+  cl.print(schedule[5][4]);
+  cl.print("</SaturdayEndTime2>");
+  cl.print("<SundayStartTime1>");
+  cl.print(schedule[6][1]);
+  cl.print("</SundayStartTime1>");
+  cl.print("<SundayEndTime1>");
+  cl.print(schedule[6][2]);
+  cl.print("</SundayEndTime1>");
+  cl.print("<SundayStartTime2>");
+  cl.print(schedule[6][3]);
+  cl.print("</SundayStartTime2>");
+  cl.print("<SundayEndTime2>");
+  cl.print(schedule[6][4]);
+  cl.print("</SundayEndTime2>");
+  cl.print("</inputs>");
 }
 
-// searches for the string sfind in the string str
-// returns 1 if string found
-// returns 0 if string not found
+void StrClear(char *str, char length) {
+  for (int i = 0; i < length; i++) {
+    str[i] = 0;
+  }
+}
+
 char StrContains(char *str, char *sfind) {
-    char found = 0;
-    char index = 0;
-    char len;
-    len = strlen(str);
-    if (strlen(sfind) > len) {
-        return 0;
-    }
-    while (index < len) {
-        if (str[index] == sfind[found]) {
-            found++;
-            if (strlen(sfind) == found) {
-                return 1;
-            }
-        } 
-        
-        else {
-            found = 0;
-        }
-        index++;
-    }
+  char found = 0;
+  char index = 0;
+  char len;
+  len = strlen(str);
+  if (strlen(sfind) > len) {
     return 0;
+  }
+  while (index < len) {
+    if (str[index] == sfind[found]) {
+      found++;
+      if (strlen(sfind) == found) {
+        return 1;
+      }
+    } 
+    else {
+      found = 0;
+    }
+    index++;
+  }
+  return 0;
 }
 
 void matchAndUpdateSchedule(String schedule[7][5], String DOW, char* matcher, char* HTTP_req) {
@@ -665,42 +524,26 @@ void updateSchedule(String schedule[7][5], String day, String startTime1, String
   Serial.println("-------------");
 }
 
-void checkSchedule(String schedule[7][5], int relay) {
-  String currentTime = rtc.getTimeStr(FORMAT_SHORT);
-  String DOW = rtc.getDOWStr();
-  Serial.println("--- Current Time is: " + currentTime);
-  int DOWIndex = getDayIndex(DOW);
-  String startTime1 = schedule[DOWIndex][1];
-  String endTime1 = schedule[DOWIndex][2];
-  String startTime2 = schedule[DOWIndex][3];
-  String endTime2 = schedule[DOWIndex][4];
-  if (startTime1 == currentTime || startTime2 == currentTime) {
-    Serial.println("--- Turning light on!!");
-    digitalWrite(relay, LOW);
-  } else if (endTime1 == currentTime || endTime2 == currentTime) {
-    Serial.println("--- Turning light off!!");
-    digitalWrite(relay, HIGH);
-  }
-}
+void matchAndUpdateAquarioData(String dataToUpdate, char* matcher, char* HTTP_req) {
+  // match state object
+  MatchState ms;
+  char buf [100];
+  ms.Target (HTTP_req);  // set its address
+  char result = ms.Match (matcher, 0);
+  int firstMatch = atoi(ms.GetCapture (buf, 0));
+  int secondMatch = atoi(ms.GetCapture (buf, 1));
+  int thirdMatch = atoi(ms.GetCapture (buf, 2));
 
-int getDayIndex(String day) {
-  int index = 0;
-  if (day == "Monday") {
-    index = 0;
-  } else if (day == "Tuesday") {
-    index = 1;
-  } else if (day == "Wednesday") {
-    index = 2;
-  } else if (day == "Thursday") {
-    index = 3;
-  } else if (day == "Friday") {
-    index = 4;
-  } else if (day == "Saturday") {
-    index = 5;
-  } else if (day == "Sunday") {
-    index = 6;
-  } else {
-    index = 0; // default if can't find day
+  if (dataToUpdate == "currentTime") {
+    rtc.setTime(firstMatch, secondMatch, thirdMatch);
   }
-  return index;
+  else if (dataToUpdate == "currentDate") {
+    rtc.setDate(firstMatch, secondMatch, thirdMatch);
+    rtc.setDOW();
+  }
+  else if (dataToUpdate == "tankTemps") {
+    temp = firstMatch;
+    upperTempVariance = secondMatch;
+    lowerTempVariance = thirdMatch;
+  }
 }

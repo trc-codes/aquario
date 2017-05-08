@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <title>Light Schedule | Aquario settings</title>
 	<script>
-		function GetArduinoIO()
-		{
+		function GetArduinoIO() {
 			nocache = "&nocache=" + Math.random() * 1000000;
 			var request = new XMLHttpRequest();
 			request.onreadystatechange = function() {
@@ -16,73 +15,73 @@
 							var count;
 							
 							// get current monday lights start time 1 inputs
-							document.getElementById("inputMonLightsStartTime1").value = this.responseXML.getElementsByTagName("MondayLightsStartTime1")[0].childNodes[0].nodeValue;
+							document.getElementById("inputMonLightsStartTime1").value = this.responseXML.getElementsByTagName("MondayStartTime1")[0].childNodes[0].nodeValue;
 							// get current monday lights end time 1 inputs
-							document.getElementById("inputMonLightsEndTime1").value = this.responseXML.getElementsByTagName("MondayLightsEndTime1")[0].childNodes[0].nodeValue;
+							document.getElementById("inputMonLightsEndTime1").value = this.responseXML.getElementsByTagName("MondayEndTime1")[0].childNodes[0].nodeValue;
 							// get current monday lights start time 2 inputs
-							document.getElementById("inputMonLightsStartTime2").value = this.responseXML.getElementsByTagName("MondayLightsStartTime2")[0].childNodes[0].nodeValue;
+							document.getElementById("inputMonLightsStartTime2").value = this.responseXML.getElementsByTagName("MondayStartTime2")[0].childNodes[0].nodeValue;
 							// get current monday lights end time 2 inputs
-							document.getElementById("inputMonLightsEndTime2").value = this.responseXML.getElementsByTagName("MondayLightsEndTime2")[0].childNodes[0].nodeValue;
+							document.getElementById("inputMonLightsEndTime2").value = this.responseXML.getElementsByTagName("MondayEndTime2")[0].childNodes[0].nodeValue;
 							
 							// get current tuesday lights start time 1 inputs
-							document.getElementById("inputTueLightsStartTime1").value = this.responseXML.getElementsByTagName("TuesdayLightsStartTime1")[0].childNodes[0].nodeValue;
+							document.getElementById("inputTueLightsStartTime1").value = this.responseXML.getElementsByTagName("TuesdayStartTime1")[0].childNodes[0].nodeValue;
 							// get current tuesday lights end time 1 inputs
-							document.getElementById("inputTueLightsEndTime1").value = this.responseXML.getElementsByTagName("TuesdayLightsEndTime1")[0].childNodes[0].nodeValue;
+							document.getElementById("inputTueLightsEndTime1").value = this.responseXML.getElementsByTagName("TuesdayEndTime1")[0].childNodes[0].nodeValue;
 							// get current tuesday lights start time 2 inputs
-							document.getElementById("inputTueLightsStartTime2").value = this.responseXML.getElementsByTagName("TuesdayLightsStartTime2")[0].childNodes[0].nodeValue;
+							document.getElementById("inputTueLightsStartTime2").value = this.responseXML.getElementsByTagName("TuesdayStartTime2")[0].childNodes[0].nodeValue;
 							// get current tuesday lights end time 2 inputs
-							document.getElementById("inputTueLightsEndTime2").value = this.responseXML.getElementsByTagName("TuesdayLightsEndTime2")[0].childNodes[0].nodeValue;
+							document.getElementById("inputTueLightsEndTime2").value = this.responseXML.getElementsByTagName("TuesdayEndTime2")[0].childNodes[0].nodeValue;
 							
 							// get current wednesday lights start time 1 inputs
-							document.getElementById("inputWedLightsStartTime1").value = this.responseXML.getElementsByTagName("WednesdayLightsStartTime1")[0].childNodes[0].nodeValue;
+							document.getElementById("inputWedLightsStartTime1").value = this.responseXML.getElementsByTagName("WednesdayStartTime1")[0].childNodes[0].nodeValue;
 							// get current wednesday lights end time 1 inputs
-							document.getElementById("inputWedLightsEndTime1").value = this.responseXML.getElementsByTagName("WednesdayLightsEndTime1")[0].childNodes[0].nodeValue;
+							document.getElementById("inputWedLightsEndTime1").value = this.responseXML.getElementsByTagName("WednesdayEndTime1")[0].childNodes[0].nodeValue;
 							// get current wednesday lights start time 2 inputs
-							document.getElementById("inputWedLightsStartTime2").value = this.responseXML.getElementsByTagName("WednesdayLightsStartTime2")[0].childNodes[0].nodeValue;
+							document.getElementById("inputWedLightsStartTime2").value = this.responseXML.getElementsByTagName("WednesdayStartTime2")[0].childNodes[0].nodeValue;
 							// get current wednesday lights end time 2 inputs
-							document.getElementById("inputWedLightsEndTime2").value = this.responseXML.getElementsByTagName("WednesdayLightsEndTime2")[0].childNodes[0].nodeValue;
+							document.getElementById("inputWedLightsEndTime2").value = this.responseXML.getElementsByTagName("WednesdayEndTime2")[0].childNodes[0].nodeValue;
 							
 							// get current thursday lights start time 1 inputs
-							document.getElementById("inputThurLightsStartTime1").value = this.responseXML.getElementsByTagName("ThursdayLightsStartTime1")[0].childNodes[0].nodeValue;
+							document.getElementById("inputThurLightsStartTime1").value = this.responseXML.getElementsByTagName("ThursdayStartTime1")[0].childNodes[0].nodeValue;
 							// get current thursday lights end time 1 inputs
-							document.getElementById("inputThurLightsEndTime1").value = this.responseXML.getElementsByTagName("ThursdayLightsEndTime1")[0].childNodes[0].nodeValue;
+							document.getElementById("inputThurLightsEndTime1").value = this.responseXML.getElementsByTagName("ThursdayEndTime1")[0].childNodes[0].nodeValue;
 							// get current thursday lights start time 2 inputs
-							document.getElementById("inputThurLightsStartTime2").value = this.responseXML.getElementsByTagName("ThursdayLightsStartTime2")[0].childNodes[0].nodeValue;
+							document.getElementById("inputThurLightsStartTime2").value = this.responseXML.getElementsByTagName("ThursdayStartTime2")[0].childNodes[0].nodeValue;
 							// get current thursday lights end time 2 inputs
-							document.getElementById("inputThurLightsEndTime2").value = this.responseXML.getElementsByTagName("ThursdayLightsEndTime2")[0].childNodes[0].nodeValue;
+							document.getElementById("inputThurLightsEndTime2").value = this.responseXML.getElementsByTagName("ThursdayEndTime2")[0].childNodes[0].nodeValue;
 							
 							// get current friday lights start time 1 inputs
-							document.getElementById("inputFriLightsStartTime1").value = this.responseXML.getElementsByTagName("FridayLightsStartTime1")[0].childNodes[0].nodeValue;
+							document.getElementById("inputFriLightsStartTime1").value = this.responseXML.getElementsByTagName("FridayStartTime1")[0].childNodes[0].nodeValue;
 							// get current friday lights end time 1 inputs
-							document.getElementById("inputFriLightsEndTime1").value = this.responseXML.getElementsByTagName("FridayLightsEndTime1")[0].childNodes[0].nodeValue;
+							document.getElementById("inputFriLightsEndTime1").value = this.responseXML.getElementsByTagName("FridayEndTime1")[0].childNodes[0].nodeValue;
 							// get current friday lights start time 2 inputs
-							document.getElementById("inputFriLightsStartTime2").value = this.responseXML.getElementsByTagName("FridayLightsStartTime2")[0].childNodes[0].nodeValue;
+							document.getElementById("inputFriLightsStartTime2").value = this.responseXML.getElementsByTagName("FridayStartTime2")[0].childNodes[0].nodeValue;
 							// get current friday lights end time 2 inputs
-							document.getElementById("inputFriLightsEndTime2").value = this.responseXML.getElementsByTagName("FridayLightsEndTime2")[0].childNodes[0].nodeValue;
+							document.getElementById("inputFriLightsEndTime2").value = this.responseXML.getElementsByTagName("FridayEndTime2")[0].childNodes[0].nodeValue;
 							
 							// get current saturday lights start time 1 inputs
-							document.getElementById("inputSatLightsStartTime1").value = this.responseXML.getElementsByTagName("SaturdayLightsStartTime1")[0].childNodes[0].nodeValue;
+							document.getElementById("inputSatLightsStartTime1").value = this.responseXML.getElementsByTagName("SaturdayStartTime1")[0].childNodes[0].nodeValue;
 							// get current saturday lights end time 1 inputs
-							document.getElementById("inputSatLightsEndTime1").value = this.responseXML.getElementsByTagName("SaturdayLightsEndTime1")[0].childNodes[0].nodeValue;
+							document.getElementById("inputSatLightsEndTime1").value = this.responseXML.getElementsByTagName("SaturdayEndTime1")[0].childNodes[0].nodeValue;
 							// get current saturday lights start time 2 inputs
-							document.getElementById("inputSatLightsStartTime2").value = this.responseXML.getElementsByTagName("SaturdayLightsStartTime2")[0].childNodes[0].nodeValue;
+							document.getElementById("inputSatLightsStartTime2").value = this.responseXML.getElementsByTagName("SaturdayStartTime2")[0].childNodes[0].nodeValue;
 							// get current saturday lights end time 2 inputs
-							document.getElementById("inputSatLightsEndTime2").value = this.responseXML.getElementsByTagName("SaturdayLightsEndTime2")[0].childNodes[0].nodeValue;
+							document.getElementById("inputSatLightsEndTime2").value = this.responseXML.getElementsByTagName("SaturdayEndTime2")[0].childNodes[0].nodeValue;
 							
 							// get current sunday lights start time 1 inputs
-							document.getElementById("inputSunLightsStartTime1").value = this.responseXML.getElementsByTagName("SundayLightsStartTime1")[0].childNodes[0].nodeValue;
+							document.getElementById("inputSunLightsStartTime1").value = this.responseXML.getElementsByTagName("SundayStartTime1")[0].childNodes[0].nodeValue;
 							// get current sunday lights end time 1 inputs
-							document.getElementById("inputSunLightsEndTime1").value = this.responseXML.getElementsByTagName("SundayLightsEndTime1")[0].childNodes[0].nodeValue;
+							document.getElementById("inputSunLightsEndTime1").value = this.responseXML.getElementsByTagName("SundayEndTime1")[0].childNodes[0].nodeValue;
 							// get current sunday lights start time 2 inputs
-							document.getElementById("inputSunLightsStartTime2").value = this.responseXML.getElementsByTagName("SundayLightsStartTime2")[0].childNodes[0].nodeValue;
+							document.getElementById("inputSunLightsStartTime2").value = this.responseXML.getElementsByTagName("SundayStartTime2")[0].childNodes[0].nodeValue;
 							// get current sunday lights end time 2 inputs
-							document.getElementById("inputSunLightsEndTime2").value = this.responseXML.getElementsByTagName("SundayLightsEndTime2")[0].childNodes[0].nodeValue;
+							document.getElementById("inputSunLightsEndTime2").value = this.responseXML.getElementsByTagName("SundayEndTime2")[0].childNodes[0].nodeValue;
 						}
 					}
 				}
 			}
 			// send HTTP GET request
-			request.open("GET", "ajax_inputs"+nocache, true);
+			request.open("GET", "lights_schedules"+nocache, true);
 			request.send(null);
 		}
 		// set Lights Schedules
@@ -91,89 +90,55 @@
 			strMET1 = "&met1="+document.getElementById("inputMonLightsEndTime1").value;
 			strMST2 = "&mst2="+document.getElementById("inputMonLightsStartTime2").value;
 			strMET2 = "&met2="+document.getElementById("inputMonLightsEndTime2").value;
-			nocache = "&nocache=" + Math.random() * 1000000;
-			
-			var request = new XMLHttpRequest();
-			// send HTTP GET request
-			request.open("GET", "ajax_inputs" + strMST1 + strMET1 + strMST2 + strMET2 + nocache, true);
-			request.send();
-			GetArduinoIO();
+			SendAjaxRequest(strMST1, strMET1, strMST2, strMET2);
 		}
 		function SetTueLightSchedule() {
 			strTST1 = "&tst1="+document.getElementById("inputTueLightsStartTime1").value;
 			strTET1 = "&tet1="+document.getElementById("inputTueLightsEndTime1").value;
 			strTST2 = "&tst2="+document.getElementById("inputTueLightsStartTime2").value;
 			strTET2 = "&tet2="+document.getElementById("inputTueLightsEndTime2").value;
-			nocache = "&nocache=" + Math.random() * 1000000;
-			
-			var request = new XMLHttpRequest();
-			// send HTTP GET request
-			request.open("GET", "ajax_inputs" + strTST1 + strTET1 + strTST2 + strTET2 + nocache, true);
-			request.send();
-			GetArduinoIO();
+			SendAjaxRequest(strTST1, strTET1, strTST2, strTET2);
 		}
 		function SetWedLightSchedule() {
 			strWST1 = "&wst1="+document.getElementById("inputWedLightsStartTime1").value;
 			strWET1 = "&wet1="+document.getElementById("inputWedLightsEndTime1").value;
 			strWST2 = "&wst2="+document.getElementById("inputWedLightsStartTime2").value;
 			strWET2 = "&wet2="+document.getElementById("inputWedLightsEndTime2").value;
-			nocache = "&nocache=" + Math.random() * 1000000;
-			
-			var request = new XMLHttpRequest();
-			// send HTTP GET request
-			request.open("GET", "ajax_inputs" + strWST1 + strWET1 + strWST2 + strWET2 + nocache, true);
-			request.send();
-			GetArduinoIO();
+			SendAjaxRequest(strWST1, strWET1, strWST2, strWET2);
 		}
 		function SetThurLightSchedule() {
 			strThST1 = "&thst1="+document.getElementById("inputThurLightsStartTime1").value;
 			strThET1 = "&thet1="+document.getElementById("inputThurLightsEndTime1").value;
 			strThST2 = "&thst2="+document.getElementById("inputThurLightsStartTime2").value;
 			strThET2 = "&thet2="+document.getElementById("inputThurLightsEndTime2").value;
-			nocache = "&nocache=" + Math.random() * 1000000;
-			
-			var request = new XMLHttpRequest();
-			// send HTTP GET request
-			request.open("GET", "ajax_inputs" + strThST1 + strThET1 + strThST2 + strThET2 + nocache, true);
-			request.send();
-			GetArduinoIO();
+			SendAjaxRequest(strThST1, strThET1, strThST2, strThET2);
 		}
 		function SetFriLightSchedule() {
 			strFST1 = "&fst1="+document.getElementById("inputFriLightsStartTime1").value;
 			strFET1 = "&fet1="+document.getElementById("inputFriLightsEndTime1").value;
 			strFST2 = "&fst2="+document.getElementById("inputFriLightsStartTime2").value;
 			strFET2 = "&fet2="+document.getElementById("inputFriLightsEndTime2").value;
-			nocache = "&nocache=" + Math.random() * 1000000;
-			
-			var request = new XMLHttpRequest();
-			// send HTTP GET request
-			request.open("GET", "ajax_inputs" + strFST1 + strFET1 + strFST2 + strFET2 + nocache, true);
-			request.send();
-			GetArduinoIO();
+			SendAjaxRequest(strFST1, strFET1, strFST2, strFET2);
 		}
 		function SetSatLightSchedule() {
 			strSST1 = "&sst1="+document.getElementById("inputSatLightsStartTime1").value;
 			strSET1 = "&set1="+document.getElementById("inputSatLightsEndTime1").value;
 			strSST2 = "&sst2="+document.getElementById("inputSatLightsStartTime2").value;
 			strSET2 = "&set2="+document.getElementById("inputSatLightsEndTime2").value;
-			nocache = "&nocache=" + Math.random() * 1000000;
-			
-			var request = new XMLHttpRequest();
-			// send HTTP GET request
-			request.open("GET", "ajax_inputs" + strSST1 + strSET1 + strSST2 + strSET2 + nocache, true);
-			request.send();
-			GetArduinoIO();
+			SendAjaxRequest(strSST1, strSET1, strSST2, strSET2);
 		}
 		function SetSunLightSchedule() {
 			strSuST1 = "&sust1="+document.getElementById("inputSunLightsStartTime1").value;
 			strSuET1 = "&suet1="+document.getElementById("inputSunLightsEndTime1").value;
 			strSuST2 = "&sust2="+document.getElementById("inputSunLightsStartTime2").value;
 			strSuET2 = "&suet2="+document.getElementById("inputSunLightsEndTime2").value;
+			SendAjaxRequest(strSuST1, strSuET1, strSuST2, strSuET2);
+		}
+		function SendAjaxRequest(startTime1, endTime1, startTime2, endTime2) {
 			nocache = "&nocache=" + Math.random() * 1000000;
-			
 			var request = new XMLHttpRequest();
 			// send HTTP GET request
-			request.open("GET", "ajax_inputs" + strSuST1 + strSuET1 + strSuST2 + strSuET2 + nocache, true);
+			request.open("GET", "lights_schedules" + startTime1 + endTime1 + startTime2 + endTime2 + nocache, true);
 			request.send();
 			GetArduinoIO();
 		}
@@ -190,8 +155,6 @@
 		html {
 			font-family: Verdana, Geneva, sans-serif;
 			line-height: 1.15;
-			-ms-text-size-adjust: 100%;
-			-webkit-text-size-adjust: 100%;
 		}
 		body {
 			padding-bottom: 40px;
@@ -233,15 +196,9 @@
 			color: #464a4c;
 			background-color: #fff;
 			background-image: none;
-			-webkit-background-clip: padding-box;
 			background-clip: padding-box;
 			border: 1px solid rgba(0, 0, 0, 0.15);
 			border-radius: 0.25rem;
-			-webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
-			transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
-			-o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-			transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-			transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
 		}
 		.form-control-lg {
 			width: 100%;
@@ -268,17 +225,10 @@
 			text-align: center;
 			white-space: nowrap;
 			vertical-align: middle;
-			-webkit-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-			user-select: none;
 			border: 1px solid transparent;
 			padding: 0.5rem 1rem;
 			font-size: 1rem;
 			border-radius: 0.25rem;
-			-webkit-transition: all 0.2s ease-in-out;
-			-o-transition: all 0.2s ease-in-out;
-			transition: all 0.2s ease-in-out;
 		}
 		.btn-lg, .btn-group-lg > .btn {
 			padding: 0.75rem 1.5rem;
@@ -336,7 +286,7 @@
 		.centre {
 			text-align: center;
 			margin-top: 20px;
-		}		
+		}	
 	</style>
   </head>
 
@@ -348,6 +298,7 @@
 			<img src="http://trc.codes/aquario/logo.png" alt="Aquario" title="Aquario">
 			<ul>
 				<li><a href="state.htm">State</a></li>
+				<li><a href="settings.htm">Aquario data Settings</a></li>
 				<li><a href="co2.htm">Co2 Settings</a></li>
 			</ul>
 		</div>
